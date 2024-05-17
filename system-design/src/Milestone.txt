@@ -1,0 +1,3 @@
+1st: (April & May)
+1. dsa: arrays, searhcing & soring
+2. design: cache, eventbus & ratelimiter
