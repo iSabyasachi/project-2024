@@ -34,6 +34,17 @@ dynamically generates the proper predicate.
 195. Extending Stream with containsAll() and containsAny(): Provide a solution that extends the Java Stream API with
 two final operations named containsAll() and containsAny().
 
+196. Logging in predicates: Write a custom solution that allows us to log failures in predicates.
+
+197. Extending Stream with containsAll() and containsAny(): Provide a solution that extends the Java Stream API with
+two final operations named containsAll() and containsAny().
+
+198. Extending Stream with removeAll() and retainAll(): Provide a solution that extends the Java Stream API with two
+final operations named removeAll() and retainAll().
+
+199. Introducing stream comparators: Provide a detailed covering (with examples) of using stream comparators.
+
+
 
 
 

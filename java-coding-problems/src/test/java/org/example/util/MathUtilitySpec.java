@@ -3,10 +3,21 @@ package org.example.util;
 import jdk.jfr.Description;
 import org.junit.jupiter.api.Test;
 
+import java.util.Optional;
+
 import static org.example.util.MathUtility.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class MathUtilitySpec {
+
+    @Description("Test Square of a Number")
+    @Test
+    void test_square(){
+        assertEquals(16,  (Integer) square(4));
+        assertEquals(16.0f, (Float) square(4.0f));
+        assertEquals(16L, (Long) square(4L));
+        assertEquals(16.0D, square(4D));
+    }
 
     @Description("Test Fibonacci Using Memoization")
     @Test

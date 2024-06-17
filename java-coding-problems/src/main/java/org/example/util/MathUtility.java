@@ -72,4 +72,29 @@ public class MathUtility{
         return num * factorialUsingRecursion(num - 1);
     }
 
+    public static <T> T square(Number T){
+        if(T instanceof Double) return (T)square(T.doubleValue());
+        if(T instanceof Float) return (T)square(T.floatValue());
+        if(T instanceof Long) return (T)square(T.longValue());
+        if(T instanceof Integer) return (T)square(T.intValue());
+
+        throw new NumberFormatException();
+    }
+
+    private static Double square(Double d){
+        return d * d;
+    }
+
+    private static Float square(Float i){
+        return i * i;
+    }
+
+    private static Long square(Long l){
+        return l * l;
+    }
+
+    private static Integer square(Integer i){
+        return i * i;
+    }
+
 }
