@@ -6,6 +6,7 @@ unique integer ID, and the post has several properties, including its tags. The 
 represented as a string of tags separated by a hashtag (#). Whenever we need the list of tags for a given post,
 we can call the allTags() helper method. Our goal is to write a stream pipeline that extracts from this list of tags
 a Map<String, List<Integer>> containing, for each tag (key), the list of posts (value).
+- MapExampleSpec
 
 187. Exemplifying a method reference vs. a lambda: Write a relevant snippet of code to highlight the difference in behavior
 between a method reference and the equivalent lambda expression.
@@ -43,6 +44,19 @@ two final operations named containsAll() and containsAny().
 final operations named removeAll() and retainAll().
 
 199. Introducing stream comparators: Provide a detailed covering (with examples) of using stream comparators.
+
+200. Sorting a map: Write several snippets of code to highlight different use cases for sorting a map.
+- StreamComparatorsExampleSpec
+
+201. Filtering a map: Write several snippets of code to highlight different use cases for filtering a map.
+- MapExampleSpec
+
+202. Creating a custom collector via Collector.of(): Write an arbitrarily chosen set of custom collectors via the Collector.of() API.
+- CollectorExampleSpec
+
+203. Throwing checked exceptions from lambdas
+
+104. Implementing distinctBy() for the Stream API: Write a Java application that implements the distinctBy() stream intermediate operation. This is like the built-in distinct(), only it allows us to filter distinct elements by a given property/field.
 
 
 
