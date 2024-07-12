@@ -10,6 +10,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 import static org.example.functions.GroupingByExample.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -30,9 +31,16 @@ public class GroupingByExampleSpec {
         Optional<BlogPost> expectedResult =
                 Optional.of(new BlogPost("Solving Java Problems. Yehh!!!", "Sasank Acharya", BlogPostType.NEWS, 10));
 
-        Map<BlogPostType, Optional<BlogPost>> actualResult =
-                maxLikesPerPostType(posts);
+        /*Map<BlogPostType, Optional<BlogPost>> actualResult =
+                maxLikesPerPostType(posts);*/
 
+        Map<BlogPostType, Optional<BlogPost>> actualResult = posts.stream().collect(
+                Collectors.groupingBy(
+                        BlogPost::getType,
+                        Collectors.maxBy(Comparator.comparingInt(BlogPost::getLikes))
+                )
+        );
+        System.out.println(actualResult);
         assertEquals(expectedResult, actualResult.get(BlogPostType.NEWS));
     }
 
@@ -48,7 +56,13 @@ public class GroupingByExampleSpec {
                 14.5D
         );
 
-        Map<BlogPostType, Double> actualResult = averageLikesPerType(posts);
+        //Map<BlogPostType, Double> actualResult = averageLikesPerType(posts);
+
+        Map<BlogPostType, Double> actualResult  = posts.stream().collect(Collectors.groupingBy(
+                BlogPost::getType,
+                Collectors.averagingDouble(BlogPost::getLikes)
+        ));
+
 
         assertEquals(expectedResult, actualResult);
     }
@@ -65,7 +79,12 @@ public class GroupingByExampleSpec {
                 29
         );
 
-        Map<BlogPostType, Integer> actualResult = sumOfLikesPerType(posts);
+       // Map<BlogPostType, Integer> actualResult = sumOfLikesPerType(posts);
+
+        Map<BlogPostType, Integer> actualResult = posts.stream().collect(Collectors.groupingBy(
+                BlogPost::getType,
+                Collectors.summingInt(BlogPost::getLikes)
+        ));
 
         assertEquals(expectedResult, actualResult);
     }
@@ -81,8 +100,17 @@ public class GroupingByExampleSpec {
                 )
         );
 
-        Map<String, Map<BlogPostType, List<BlogPost>>> actualResult = groupPostsByAuthorAndType(posts);
+        //Map<String, Map<BlogPostType, List<BlogPost>>> actualResult = groupPostsByAuthorAndType(posts);
 
+        Map<String, Map<BlogPostType, List<BlogPost>>> actualResult = posts.stream().collect(
+                Collectors.groupingBy(
+                        BlogPost::getAuthor,
+                        Collectors.groupingBy(
+                                BlogPost::getType
+                        )
+                )
+        );
+        System.out.println(actualResult);
         assertEquals(expectedResult, actualResult.get("Sabyasachi Mohapatra"));
     }
 
@@ -95,7 +123,16 @@ public class GroupingByExampleSpec {
                 new BlogPost("Angular Revolution", "Sabyasachi Mohapatra", BlogPostType.NEWS, 7)
         );
 
-        Map<BlogPostType, List<BlogPost>> actualResult = postsPerTypeUsingMapMulti(posts);
+        //Map<BlogPostType, List<BlogPost>> actualResult = postsPerTypeUsingMapMulti(posts);
+
+        Map<BlogPostType, List<BlogPost>> actualResult = posts.stream().<Map.Entry<BlogPostType, BlogPost>>mapMulti((post, consumer) -> {
+            consumer.accept(Map.entry(BlogPostType.valueOf(post.getType().name()), post));
+        }).collect(Collectors.groupingBy(
+                Map.Entry::getKey,
+                Collectors.mapping(
+                        Map.Entry::getValue, Collectors.toList()
+                )
+        ));
 
         assertEquals(expectedResult, actualResult.get(BlogPostType.NEWS));
     }
@@ -121,7 +158,11 @@ public class GroupingByExampleSpec {
                 )
         );
 
-        Map<BlogPostType, List<BlogPost>> actualResult = listOfPostPerType(posts);
+        //Map<BlogPostType, List<BlogPost>> actualResult = listOfPostPerType(posts);
+
+        Map<BlogPostType, List<BlogPost>> actualResult = posts.stream().collect(
+                Collectors.groupingBy(BlogPost::getType)
+        );
 
         assertEquals(expectedResult, actualResult);
     }
@@ -147,7 +188,12 @@ public class GroupingByExampleSpec {
                 )
         );
 
-        Map<BlogPostType, Set<BlogPost>> actualResult = postsPerType(posts);
+        //Map<BlogPostType, Set<BlogPost>> actualResult = postsPerType(posts);
+
+        Map<BlogPostType, Set<BlogPost>> actualResult = posts.stream().collect(Collectors.groupingBy(
+                BlogPost::getType,
+                Collectors.toSet()
+        ));
 
         assertEquals(expectedResult, actualResult);
     }
@@ -155,7 +201,12 @@ public class GroupingByExampleSpec {
     @Description("Test like statistics per type")
     @Test
     void test_likeStatisticsPerType(){
-        Map<BlogPostType, IntSummaryStatistics> actualResults = likeStatisticsPerType(posts);
+        //Map<BlogPostType, IntSummaryStatistics> actualResults = likeStatisticsPerType(posts);
+
+        Map<BlogPostType, IntSummaryStatistics> actualResults = posts.stream().collect(Collectors.groupingBy(
+                BlogPost::getType,
+                Collectors.summarizingInt(BlogPost::getLikes)
+        ));
 
         assertEquals(3, actualResults.get(BlogPostType.NEWS).getCount());
         assertEquals(8, actualResults.get(BlogPostType.NEWS).getAverage());
@@ -167,7 +218,22 @@ public class GroupingByExampleSpec {
     @Description("Test Aggregating Multiple Attributes of a Grouped Result")
     @Test
     void test_postsPerAuthor(){
-        Map<String, BlogPost.PostCountTitlesLikesStats> actualResult = postsPerAuthor(posts);
+        //Map<String, BlogPost.PostCountTitlesLikesStats> actualResult = postsPerAuthor(posts);
+
+        Map<String, BlogPost.PostCountTitlesLikesStats> actualResult =  posts.stream().collect(
+                Collectors.groupingBy(
+                        BlogPost::getAuthor,
+                        Collectors.collectingAndThen(
+                                Collectors.toList(),
+                                list -> {
+                                    long postCount = list.stream().count();
+                                    String titles = list.stream().map(blogPost -> blogPost.getTitle()).collect(Collectors.joining(":"));
+                                    IntSummaryStatistics likesStats = list.stream().collect(Collectors.summarizingInt(BlogPost::getLikes));
+                                    return new BlogPost.PostCountTitlesLikesStats(postCount, titles, likesStats);
+                                }
+                        )
+                )
+        );
 
         assertEquals(2, actualResult.get("Sabyasachi Mohapatra").postCount());
         assertEquals("AI Revolution:Angular Revolution", actualResult.get("Sabyasachi Mohapatra").titles());
@@ -178,7 +244,12 @@ public class GroupingByExampleSpec {
     @Test
     void test_concatenateTitlesByPostType(){
         String expectedResult = "Post Titles [Solving Java Problems. Yehh!!!, AI Revolution, Angular Revolution]";
-        Map<BlogPostType, String> actualResult = concatenateTitlesByPostType(posts);
+        //Map<BlogPostType, String> actualResult = concatenateTitlesByPostType(posts);
+
+        Map<BlogPostType, String> actualResult = posts.stream().collect(Collectors.groupingBy(
+                BlogPost::getType,
+                Collectors.mapping(BlogPost::getTitle, Collectors.joining(", ", "Post Titles [", "]"))
+        ));
 
         assertEquals(expectedResult, actualResult.get(BlogPostType.NEWS));
     }
@@ -191,7 +262,10 @@ public class GroupingByExampleSpec {
                 new Car("Toyota-Rav4", "Hybrid", 225),
                 new Car("Honda-Accord", "Hybrid", 201)
         );
-        Map<String, List<Car>> actualResult = listOfCarsGroupByFuel(cars);
+        //Map<String, List<Car>> actualResult = listOfCarsGroupByFuel(cars);
+        Map<String, List<Car>> actualResult = cars.stream().collect(Collectors.groupingBy(
+                Car::getFuel
+        ));
 
         assertEquals(actualResult.get("Hybrid"), expectedResult);
     }

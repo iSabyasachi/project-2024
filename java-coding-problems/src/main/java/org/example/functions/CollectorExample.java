@@ -1,24 +1,96 @@
 package org.example.functions;
 
+import org.example.domain.people.Person;
 import org.example.domain.vehicle.Car;
 import org.example.domain.vehicle.Submersible;
 import org.example.domain.vehicle.Vehicle;
 import org.example.util.function.MyCollectors;
 
 import java.util.*;
+import java.util.function.Function;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+import static java.util.stream.Collectors.teeing;
+
 /*
+ Collector:
  static <T, R> Collector<T, R, R> of(Supplier<R> supplier, Accumulator<R, T> accumulator, BinaryOperator<R> combiner,
   Collector.Characteristics... characteristics)
 
+ Collector:
  static of(Supplier<R> supplier, Accumulator<R, T> accumulator, BinaryOperator<R> combiner, Function<R> finisher,
   Collector.Characteristics... characteristics)
+
+  Collectors.filtering(Predicate<? super T> predicate, Collector<? super T, A, R> downstream)
 * */
 
 public class CollectorExample {
+
+    public static Map<Integer, List<String>> listOfNamesGroupedByAge(List<Person> people){
+        return people.stream().collect(
+                Collectors.groupingBy(
+                        Person::getAge,
+                        Collectors.mapping(
+                                Person::getName,
+                                Collectors.toList()
+                        )
+                )
+        );
+    }
+
+    public static Map<String, Double> calculateSumAndAverageOfNumbers(List<Integer> nums){
+        return nums.stream().collect(
+                teeing(
+                        Collectors.summingDouble(Integer::doubleValue), // First downstream collector
+                        Collectors.averagingDouble(Integer::doubleValue), // Second downstream collector
+                        (sum, avg) -> Map.of("Sum", sum, "Average", avg) // Merger function
+                )
+        );
+    }
+
+    /*
+     * Collectors.filtering(Predicate<? super T> predicate, Collector<? super T, A, R> downstream):
+     * Returns a collector that filters elements before applying another collector.
+     * */
+    public static Map<String, List<Car>> groupByFuelTypeAndExcludeHybrid(List<Car> cars){
+         return cars.stream().collect(Collectors.groupingBy(
+                Car::getFuel,
+                Collectors.filtering(
+                        (car) -> !car.getFuel().equals("Hybrid"),
+                        Collectors.toList()
+                )
+        ));
+    }
+    /*
+     * Collectors.flatMapping(Function<? super T, ? extends Stream<? extends U>> mapper,
+                                   Collector<? super U, A, R> downstream):
+     * A collector which applies the mapping function to the input elements and
+     * provides the flat mapped results to the downstream collector.
+     * */
+    public static Map<String, List<String>> groupPetsByOwnerName(List<Person> people){
+        return people.stream().collect(
+                Collectors.groupingBy(Person::getName,
+                        Collectors.flatMapping(
+                                (person) -> person.getPets().stream(),
+                                Collectors.toList())
+                        )
+        );
+    }
+
+    public static Map<String, List<String>> groupPetsByOwnerNameExcludeHamster(List<Person> people){
+        return people.stream().collect(
+                Collectors.groupingBy(Person::getName,
+                        Collectors.flatMapping(
+                                (person) -> person.getPets().stream(),
+                                Collectors.filtering(
+                                        (pet) -> !pet.equals("Hamster"),
+                                        Collectors.toList()
+                                ))
+                )
+        );
+    }
 
     public static List<Vehicle> findFirstNCarsUsingCustomCollector(List<Vehicle> vehicles, int max){
         return vehicles.stream().collect(MyCollectors.toUnmodifiableListKeep(max));

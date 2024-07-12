@@ -14,6 +14,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import static org.example.functions.MapMultiExample.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -47,14 +48,29 @@ public class MapMultiExampleSpec {
         return Arrays.asList(
                 DynamicTest.dynamicTest("Test Build Book Shelves Using Multi Map. Check Flat Map Example",
                         () -> {
-                            List<BookShelf> bookShelves = buildBookShelfUsingMultiMap(authors);
+                            //List<BookShelf> bookShelves = buildBookShelfUsingMultiMap(authors);
+                            List<BookShelf> bookShelves =  authors.stream().<BookShelf>mapMulti((author, consumer) -> {
+                                for(Book book : author.getBooks()){
+                                    consumer.accept(new BookShelf(author.getName(), book.getTitle()));
+                                }
+                            }).toList();
+                            System.out.println(bookShelves);
 
                             assertEquals("Paulo Coelho", bookShelves.get(0).getAuthor());
                             assertEquals("Alchemist", bookShelves.get(0).getBook());
                         }),
                 DynamicTest.dynamicTest("Test Build Book Shelves for published year greater than 2005. Check Flat Map Example",
                         () -> {
-                            List<BookShelf> bookShelves = buildBookShelfGt2005UsingMultiMap(authors);
+                            //List<BookShelf> bookShelves = buildBookShelfGt2005UsingMultiMap(authors);
+
+                            List<BookShelf> bookShelves = authors.stream().<BookShelf>mapMulti((author, consumer) -> {
+                                for(Book book : author.getBooks()){
+                                    if(book.getPublishDate().getYear() > 2005){
+                                        consumer.accept(new BookShelf(author.getName(), book.getTitle()));
+                                    }
+                                }
+                            }).toList();
+
 
                             assertEquals("Paulo Coelho", bookShelves.get(0).getAuthor());
                             assertEquals("Adultary", bookShelves.get(0).getBook());
@@ -75,7 +91,14 @@ public class MapMultiExampleSpec {
         return Arrays.asList(
                 DynamicTest.dynamicTest("Test list of artist-album name pairs using mapMulti",
                         () -> {
-                            List<Map.Entry<String, String>> expectedResultList = listOfArtistAlbumNamePairsUsingMultiMap(albums);
+                            //List<Map.Entry<String, String>> expectedResultList = listOfArtistAlbumNamePairsUsingMultiMap(albums);
+
+                            List<Map.Entry<String, String>> expectedResultList = albums.stream().<Map.Entry<String, String>>mapMulti((album, consumer) -> {
+                                for(Artist artist: album.getArtists()){
+                                    consumer.accept(Map.entry(artist.getName(), album.getAlbumName()));
+                                }
+                            }).toList();
+                            System.out.println(expectedResultList);
 
                             Map.Entry<String, String> expectedFirstResult = expectedResultList.get(0);
                             Map.Entry<String, String> expectedSecondResult = expectedResultList.get(1);
@@ -86,7 +109,15 @@ public class MapMultiExampleSpec {
                         }),
                 DynamicTest.dynamicTest("Test Artist:Album Pairs To Major Labels using mapMulti using Method Reference",
                         () -> {
-                            List<Map.Entry<String, String>> resultList = findArtistAlbumPairsToMajorLabelsUsingMapMulti(albums);
+                            //List<Map.Entry<String, String>> resultList = findArtistAlbumPairsToMajorLabelsUsingMapMulti(albums);
+
+                            List<Map.Entry<String, String>> resultList = albums.stream().<Map.Entry<String, String>>mapMulti((album, consumer) -> {
+                                for(Artist artist : album.getArtists()){
+                                    consumer.accept(Map.entry(artist.getName()+':'+album.getAlbumName(), artist.getMajorLabels().stream()
+                                            .collect(Collectors.joining(","))));
+                                }
+
+                            }).toList();
 
                             assertEquals("Sonu Nigam:Dhadkan", resultList.get(0).getKey());
                             assertEquals("T Series,Sony Music India", resultList.get(0).getValue());

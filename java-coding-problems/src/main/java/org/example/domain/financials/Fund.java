@@ -4,7 +4,9 @@ import lombok.Data;
 import org.example.domain.financials.enums.InstrumentCategory;
 import org.example.memoize.MemoizeSupplier;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.function.Supplier;
 
 @Data
@@ -13,6 +15,7 @@ public class Fund {
     private String name;
     private Double commitmentAmount;
     private List<Instrument> instruments;
+
     //private final Supplier<Double> allocationAmount = this::calculateAllocationAmount;
     private final Supplier<Double> allocationAmount = MemoizeSupplier.supplier(this::calculateAllocationAmount);
 

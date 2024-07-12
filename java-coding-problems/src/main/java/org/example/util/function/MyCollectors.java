@@ -10,6 +10,7 @@ import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 public class MyCollectors {
+
     /*
        There are cases when we need to compute different things and then collect only first N or skip first N
        elements, then a custom collector is welcome.
