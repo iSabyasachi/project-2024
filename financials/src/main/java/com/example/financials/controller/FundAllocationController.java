@@ -16,15 +16,15 @@ import static com.example.financials.mapper.ResponseMapper.mapToInstrumentAlloca
 public class FundAllocationController {
     @Autowired
     FundAllocationService fundAllocationService;
-
+    /*From Redis and Postgres Data Store */
     @GetMapping("/fund/{id}")
-    public FundModel getFundById(@PathVariable long id){
-        return fundAllocationService.findFundById(id);
+    public FundAllocationsResponse getFundById(@PathVariable long id){
+        return mapToFundAllocationResponse(fundAllocationService.findFundById(id, true));
     }
 
     @GetMapping("/instrument/{id}")
-    public InstrumentModel getInstrumentById(@PathVariable long id){
-        return fundAllocationService.findInstrumentById(id);
+    public InstrumentAllocationsResponse getInstrumentById(@PathVariable long id){
+        return mapToInstrumentAllocationResponse(fundAllocationService.findInstrumentById(id, true));
     }
 
     /*From postgres data store*/

@@ -11,10 +11,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Objects;
 
-import static com.example.financials.mapper.EntityMapper.*;
+import static com.example.financials.mapper.EntityMapper.mapToFundModel;
+import static com.example.financials.mapper.EntityMapper.mapToInstrumentModel;
 
 @Service
 public class FundAllocationService {
@@ -55,52 +57,46 @@ public class FundAllocationService {
     }
 
     /*From Redis and Postgres Data Store */
-    public FundModel findFundById(long id){
+    @Transactional(readOnly = true)
+    public FundModel findFundById(long id, boolean fromCache){
         String key = FUND_KEY_PREFIX + id;
-        Fund fund = (Fund)redisTemplate.opsForValue().get(key);
-        if(fund == null){
-            logger.info("Cache Miss!!! Trying fetch Fund Cached Data.");
-            fund = fundRepository.findById(id).orElse(null);
-            if(fund != null){
-                logger.info("From Postgres Database, Fund Data -> ", fund);
-                redisTemplate.opsForValue().set(key, fund);
+        FundModel fundModel = fromCache ? (FundModel)redisTemplate.opsForValue().get(key) : null;
+        if(fundModel == null){
+            logger.info("Trying to fetch Fund Cached Data. Cache Miss!!!");
+            logger.info("Fetch Fund Data From Postgres Database and update Redis Cache!!!");
+            Fund fund = fundRepository.findById(id).orElse(null);
+            if(Objects.nonNull(fund)){
+                fundModel = mapToFundModel(fund);
+
+                logger.info("Update Fund data in Redis Cache!!!");
+                redisTemplate.opsForValue().set(key, fundModel);
+                return fundModel;
             }
-        }else{
-            logger.info("Cache Hit!!! Fund Cached Data -> ", fund);
         }
 
-        if(Objects.nonNull(fund)){
-            FundModel fundModel = mapToFundModel(fund);
-            return fundModel;
-        }
-
-        return null;
+        logger.info("Cache Hit!!! Fetched Fund Data from Cache !!!");
+        return fundModel;
     }
 
-    public InstrumentModel findInstrumentById(long id){
+    @Transactional(readOnly = true)
+    public InstrumentModel findInstrumentById(long id, boolean fromCache){
         String key = INSTRUMENT_KEY_PREFIX + id;
-        Instrument instrument = (Instrument) redisTemplate.opsForValue().get(key);
-        if(instrument == null){
-            logger.info("Cache Miss!!! Trying fetch Instrument Cached Data.");
-            instrument = instrumentRepository.findById(id).orElse(null);
-            if(instrument != null){
-                logger.info("From Postgres Database, Instrument Data -> ", instrument);
-                redisTemplate.opsForValue().set(key, instrument);
+        InstrumentModel instrumentModel = fromCache ? (InstrumentModel)redisTemplate.opsForValue().get(key) : null;
+        if(instrumentModel == null){
+            logger.info("Trying to fetch Instrument Cached Data. Cache Miss!!!");
+            logger.info("Fetch Instrument Data From Postgres Database and update Redis Cache!!!");
+            Instrument instrument = instrumentRepository.findById(id).orElse(null);
+            if(Objects.nonNull(instrument)){
+                instrumentModel = mapToInstrumentModel(instrument);
+
+                logger.info("Update Instrument data in Redis Cache!!!");
+                redisTemplate.opsForValue().set(key, instrumentModel);
+                return instrumentModel;
             }
-        }else{
-            logger.info("Cache Hit!!! Instrument Cached Data -> ", instrument);
-        }
-        if(Objects.nonNull(instrument)){
-            InstrumentModel instrumentModel = new InstrumentModel();
-            instrumentModel.setInstrumentName(instrument.getInstrumentName());
-            instrumentModel.setInstrumentType(instrument.getInstrumentType());
-            instrumentModel.setTicker(instrument.getTicker());
-            instrumentModel.setSector(instrument.getSector());
-
-            return instrumentModel;
         }
 
-        return null;
+        logger.info("Cache Hit!!! Fetched Instrument Data from Cache !!!");
+        return instrumentModel;
     }
 
 }
