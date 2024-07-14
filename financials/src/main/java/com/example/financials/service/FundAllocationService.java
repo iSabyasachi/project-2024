@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StopWatch;
 
 import java.util.Objects;
 
@@ -35,7 +36,13 @@ public class FundAllocationService {
     private static final String INSTRUMENT_KEY_PREFIX = "INSTRUMENT_";
     /* From Postgres Data Store Directly*/
     public FundModel getFundByIdFromPostgres(long id){
+        StopWatch stopWatch = new StopWatch();
+        stopWatch.start("fundRepository.findById(id)");
         Fund fund = fundRepository.findById(id).orElse(null);
+        stopWatch.stop();
+        logger.info(stopWatch.prettyPrint());
+        logger.info("Total time: " + stopWatch.getTotalTimeMillis() + " ms");
+
         if(Objects.nonNull(fund)){
             logger.info("From Postgres Database only, Fund Data -> ", fund);
             return mapToFundModel(fund);

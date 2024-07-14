@@ -19,7 +19,7 @@ public class FundAllocationController {
     /*From Redis and Postgres Data Store */
     @GetMapping("/fund/{id}")
     public FundAllocationsResponse getFundById(@PathVariable long id){
-        return mapToFundAllocationResponse(fundAllocationService.findFundById(id, true));
+        return mapToFundAllocationResponse(fundAllocationService.findFundById(id, false));
     }
 
     @GetMapping("/instrument/{id}")
