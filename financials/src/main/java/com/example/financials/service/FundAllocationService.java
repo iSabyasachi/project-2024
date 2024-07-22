@@ -30,11 +30,9 @@ public class FundAllocationService {
     InstrumentRepository instrumentRepository;
 
     @Autowired
-    private RedisTemplate<String, Object> redisTemplate;
+    CacheService cacheService;
 
-    private static final String FUND_KEY_PREFIX = "FUND_";
-    private static final String INSTRUMENT_KEY_PREFIX = "INSTRUMENT_";
-    /* From Postgres Data Store Directly*/
+    /* From Postgres Data Store Only*/
     public FundModel getFundByIdFromPostgres(long id){
         StopWatch stopWatch = new StopWatch();
         stopWatch.start("fundRepository.findById(id)");
@@ -66,44 +64,67 @@ public class FundAllocationService {
     /*From Redis and Postgres Data Store */
     @Transactional(readOnly = true)
     public FundModel findFundById(long id, boolean fromCache){
-        String key = FUND_KEY_PREFIX + id;
-        FundModel fundModel = fromCache ? (FundModel)redisTemplate.opsForValue().get(key) : null;
+        FundModel fundModel = fromCache ? cacheService.getFundByIdFromCache(id) : null;
         if(fundModel == null){
-            logger.info("Trying to fetch Fund Cached Data. Cache Miss!!!");
-            logger.info("Fetch Fund Data From Postgres Database and update Redis Cache!!!");
+            logger.info("Fetch Fund Data From Postgres Database");
             Fund fund = fundRepository.findById(id).orElse(null);
             if(Objects.nonNull(fund)){
                 fundModel = mapToFundModel(fund);
 
-                logger.info("Update Fund data in Redis Cache!!!");
-                redisTemplate.opsForValue().set(key, fundModel);
+                cacheService.updateFundInCache(id, fundModel);
                 return fundModel;
             }
         }
 
-        logger.info("Cache Hit!!! Fetched Fund Data from Cache !!!");
         return fundModel;
     }
 
+    @Transactional
+    public FundModel updateFundById(long id, boolean refreshCache, FundModel updateFundModel) {
+        logger.info("Fetch and update Fund Data in Postgres Database!!!");
+        Fund fund = (Fund) fundRepository.findById(id).orElse(null);
+        if (fund == null) return null;
+
+        fund.setFundName(updateFundModel.getFundName());
+        FundModel updatedFundModel = mapToFundModel(fund);
+
+        if (refreshCache){
+            cacheService.updateFundInCache(id, updatedFundModel);
+        }
+
+        return updatedFundModel;
+    }
+
+
     @Transactional(readOnly = true)
     public InstrumentModel findInstrumentById(long id, boolean fromCache){
-        String key = INSTRUMENT_KEY_PREFIX + id;
-        InstrumentModel instrumentModel = fromCache ? (InstrumentModel)redisTemplate.opsForValue().get(key) : null;
+        InstrumentModel instrumentModel = fromCache ? cacheService.getInstrumentByIdFromCache(id) : null;
         if(instrumentModel == null){
-            logger.info("Trying to fetch Instrument Cached Data. Cache Miss!!!");
-            logger.info("Fetch Instrument Data From Postgres Database and update Redis Cache!!!");
+            logger.info("Fetch Instrument Data From Postgres Database!!!");
             Instrument instrument = instrumentRepository.findById(id).orElse(null);
             if(Objects.nonNull(instrument)){
                 instrumentModel = mapToInstrumentModel(instrument);
 
-                logger.info("Update Instrument data in Redis Cache!!!");
-                redisTemplate.opsForValue().set(key, instrumentModel);
+                cacheService.updateInstrumentInCache(id, instrumentModel);
                 return instrumentModel;
             }
         }
 
-        logger.info("Cache Hit!!! Fetched Instrument Data from Cache !!!");
         return instrumentModel;
+    }
+
+    @Transactional
+    public InstrumentModel updateInstrumentById(long id, InstrumentModel updateInstrumentModel){
+        logger.info("Fetch and update Instrument Data in Postgres Database!!!");
+        Instrument instrument = (Instrument)instrumentRepository.findById(id).orElse(null);
+        if(instrument == null) return null;
+
+        instrument.setInstrumentName(updateInstrumentModel.getInstrumentName());
+        InstrumentModel updatedInstrumentModel = mapToInstrumentModel(instrument);
+
+        cacheService.updateInstrumentInCache(id, updatedInstrumentModel);
+
+        return updatedInstrumentModel;
     }
 
 }

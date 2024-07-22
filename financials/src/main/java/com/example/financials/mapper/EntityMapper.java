@@ -4,11 +4,13 @@ import com.example.financials.entity.Allocation;
 import com.example.financials.entity.Fund;
 import com.example.financials.entity.Instrument;
 import com.example.financials.model.*;
+import lombok.experimental.UtilityClass;
 import org.springframework.util.CollectionUtils;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@UtilityClass
 public class EntityMapper {
     public static InstrumentModel mapToInstrumentModel(Instrument instrument) {
         InstrumentModel instrumentModel = new InstrumentModel();

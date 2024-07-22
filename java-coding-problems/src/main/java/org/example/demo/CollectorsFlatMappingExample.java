@@ -29,7 +29,8 @@ public class CollectorsFlatMappingExample {
 
         List<Instrument> instruments = funds.stream().collect(
                 Collectors.flatMapping(
-                        fund -> fund.instruments().stream(),Collectors.toList()
+                        fund -> fund.instruments().stream(),
+                        Collectors.toList()
                 )
         );
         System.out.println(instruments);

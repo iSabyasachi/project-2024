@@ -27,7 +27,25 @@ public class CollectorsFilteringExample {
     }
 
     public static void main(String[] args) {
-        allocationStatsPerFundExcludeDefaultInstrument();
+        //allocationStatsPerFundExcludeDefaultInstrument();
+        totalAllocationPerFund();
+    }
+
+    /*Calculate total allocation per fund and the total allocation should be at least 200K*/
+    public static void totalAllocationPerFund(){
+        var funds = buildFunds();
+        var result = funds.stream().collect(
+                groupingBy(
+                        FundAllocation::fundName,
+                        collectingAndThen(
+                                summingDouble(FundAllocation::allocationAmount),
+                                total -> total >= 150000 ? total : 0
+                        )
+                )
+        ).entrySet().stream()
+                .filter(entry -> entry.getValue() > 0)
+                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));;
+        System.out.println(result);
     }
 
     /* 1. Find total number of instruments per fund, and also collect statistics such as

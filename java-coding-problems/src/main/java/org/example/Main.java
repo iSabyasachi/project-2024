@@ -10,7 +10,6 @@ import java.util.stream.Stream;
 
 public class Main {
     public static void main(String[] args) {
-        ToDoubleBiFunction<Double, Double> bf = (double h, double i) ->  (long)h;
 
     }
 

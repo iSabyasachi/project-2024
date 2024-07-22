@@ -5,12 +5,13 @@ import com.example.financials.model.FundModel;
 import com.example.financials.model.InstrumentModel;
 import com.example.financials.response.*;
 import lombok.Data;
+import lombok.experimental.UtilityClass;
 import org.springframework.util.CollectionUtils;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@Data
+@UtilityClass
 public class ResponseMapper {
     public static InstrumentAllocationsResponse mapToInstrumentAllocationResponse(InstrumentModel instrumentModel){
         InstrumentAllocationsResponse instrumentAllocationsResponse = new InstrumentAllocationsResponse();
@@ -53,22 +54,27 @@ public class ResponseMapper {
 
         List<FundAllocationResponse> fundAllocations = new ArrayList<>();
         if(!CollectionUtils.isEmpty(fundModel.getAllocations())){
-            FundAllocationResponse fundAllocationResponse = new FundAllocationResponse();
             for(AllocationModel allocationModel: fundModel.getAllocations()){
-                InstrumentResponse instrumentResponse = new InstrumentResponse();
-                instrumentResponse.setInstrumentName(allocationModel.getInstrumentModel().getInstrumentName());
-                instrumentResponse.setInstrumentType(allocationModel.getInstrumentModel().getInstrumentType());
-                instrumentResponse.setTicker(allocationModel.getInstrumentModel().getTicker());
-                instrumentResponse.setSector(allocationModel.getInstrumentModel().getSector());
-                fundAllocationResponse.setInstrumentResponse(instrumentResponse);
-
-                fundAllocationResponse.setAllocationPercentage(allocationModel.getAllocationPercentage());
-                fundAllocationResponse.setAllocationDate(allocationModel.getAllocationDate());
+                FundAllocationResponse fundAllocationResponse = getFundAllocationResponse(allocationModel);
                 fundAllocations.add(fundAllocationResponse);
             }
             fundAllocationsResponse.setFundAllocations(fundAllocations);
         }
 
         return fundAllocationsResponse;
+    }
+
+    private static FundAllocationResponse getFundAllocationResponse(AllocationModel allocationModel) {
+        FundAllocationResponse fundAllocationResponse = new FundAllocationResponse();
+        InstrumentResponse instrumentResponse = new InstrumentResponse();
+        instrumentResponse.setInstrumentName(allocationModel.getInstrumentModel().getInstrumentName());
+        instrumentResponse.setInstrumentType(allocationModel.getInstrumentModel().getInstrumentType());
+        instrumentResponse.setTicker(allocationModel.getInstrumentModel().getTicker());
+        instrumentResponse.setSector(allocationModel.getInstrumentModel().getSector());
+        fundAllocationResponse.setInstrumentResponse(instrumentResponse);
+
+        fundAllocationResponse.setAllocationPercentage(allocationModel.getAllocationPercentage());
+        fundAllocationResponse.setAllocationDate(allocationModel.getAllocationDate());
+        return fundAllocationResponse;
     }
 }
