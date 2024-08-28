@@ -5,7 +5,9 @@ CREATE TABLE financials.Funds (
     fund_name VARCHAR(100) NOT NULL,
     fund_type VARCHAR(50),
     inception_date DATE,
-    manager VARCHAR(100)
+    manager VARCHAR(100),
+    funded_amount DECIMAL(18, 2),
+    commitment_amount DECIMAL(18, 2)
 );
 
 -- Creating the Instruments table
