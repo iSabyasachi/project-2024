@@ -1,4 +1,5 @@
-import { Component, signal } from '@angular/core';
+import { Component, computed, ElementRef, model, signal, viewChild } from '@angular/core';
+import { concat } from 'rxjs';
 
 @Component({
   selector: 'app-parent',
@@ -6,14 +7,16 @@ import { Component, signal } from '@angular/core';
     <div class="parent-container">
       <h1 class="title">Signals Demo</h1>
       <div class="input-container">
-        <input type="text" [(ngModel)]="inputNum" placeholder="Enter a number" />
-        <button (click)="onSubmit()">Submit</button>
+      Celsius: <input type="text" [(ngModel)]="celsius" placeholder="Enter celsius"/>
+      </div>
+      <div class="input-container">
+      Fahrenheit: <input type="text" [(ngModel)]="fahrenheit" placeholder="Enter fahrenheit" />
       </div>
       <div class="log-container">
-        <span>Log: {{ numArray() }}</span>
+        <span>Log: {{ tempMap() }}</span>
       </div>
       <app-child 
-        [num]="num()"
+        [celsius]="celsius()"
         (log)="onLog($event)"
         (clear)="onClear()">
       </app-child>
@@ -22,21 +25,19 @@ import { Component, signal } from '@angular/core';
   styleUrl: './parent.component.scss'
 })
 export class ParentComponent {
-  num = signal<number>(0);
-  numArray = signal<number[]>([]);
-  inputNum: number = 0;
-  
-  onSubmit(){
-    this.num.set(this.inputNum);
-    this.inputNum = 0;
-  }
+  celsius = model<number>(0);
+  fahrenheit = model<number>(32);
 
-  onLog(num: number){
-    this.numArray.update(array => [...array, num]);
+  tempMap = signal<string[]>([]);
+
+  onLog(fahrenheit: number){
+    this.fahrenheit.set(fahrenheit);
+    this.tempMap.update(temp => [...temp, [this.celsius(), fahrenheit].join(': ')]);
   }
 
   onClear(){
-    this.numArray.set([]);
-    this.num.set(0);
+    this.tempMap.set([]);
+    this.celsius.set(0);
+    this.fahrenheit.set(32);
   }
 }
