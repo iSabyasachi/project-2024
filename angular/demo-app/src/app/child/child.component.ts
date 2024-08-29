@@ -17,7 +17,7 @@ import { Component, computed, input, model, OnInit, output } from '@angular/core
 })
 export class ChildComponent{
   celsius = input.required<number>();
-  fahrenheit = input.required<number>();
+  fahrenheit = computed(() => parseFloat((this.celsius() * 1.8 + 32).toFixed(2)));
   isExist = computed(() =>  this.celsius() !== undefined);
   
   log = output<number>();

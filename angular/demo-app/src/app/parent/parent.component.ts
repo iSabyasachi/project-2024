@@ -23,7 +23,6 @@ import { concat } from 'rxjs';
       </div>
       <app-child 
         [celsius]="celsius()"
-        [fahrenheit]="fahrenheit()"
         (log)="onLog($event)"
         (clear)="onClear()">
       </app-child>
@@ -42,7 +41,7 @@ export class ParentComponent {
   }
 
   onToCelsius(){
-    this.celsius.set(parseFloat((this.fahrenheit() / 1.8 - 32).toFixed(2)));
+    this.celsius.set(parseFloat(((this.fahrenheit() - 32) / 1.8).toFixed(2)));
   }
 
   onLog(fahrenheit: number){
@@ -52,5 +51,6 @@ export class ParentComponent {
   onClear(){
     this.tempMap.set([]);
     this.celsius.set(0);
+    this.fahrenheit.set(32);
   }
 }
