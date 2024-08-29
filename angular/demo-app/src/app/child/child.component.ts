@@ -1,12 +1,11 @@
-import { Component, computed, input, output } from '@angular/core';
+import { Component, computed, input, model, OnInit, output } from '@angular/core';
 
 @Component({
   selector: 'app-child',
   template: `
   <div class="child-container">
       @if (isExist()) {
-        <span>C: {{ celsius() }}</span> <br>
-        <span>F: {{ fahrenheit() }}</span> 
+        <span class="temperature-display">{{ celsius() }}&deg;C is {{ fahrenheit() }}&deg;F</span>
       } 
       <div class="button-container">
         <button (click)="onLog()">Log</button>
@@ -16,13 +15,11 @@ import { Component, computed, input, output } from '@angular/core';
   `,
   styleUrl: './child.component.scss'
 })
-export class ChildComponent {
+export class ChildComponent{
   celsius = input.required<number>();
-  // The computed only re-evaluates if celsius() changes.
-  fahrenheit = computed(() => parseFloat((this.celsius() * 1.8 + 32).toFixed(2)));
-
-  isExist = computed(() =>  this.celsius() !== 0);
-
+  fahrenheit = input.required<number>();
+  isExist = computed(() =>  this.celsius() !== undefined);
+  
   log = output<number>();
   clear = output();
 

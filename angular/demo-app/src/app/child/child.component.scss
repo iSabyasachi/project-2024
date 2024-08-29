@@ -22,3 +22,18 @@
   .button-container button:last-child {
     background-color: #dc3545;
   }
+
+  .temperature-display {
+    font-size: 1.5rem;
+    color: #333;
+    font-weight: bold;
+    background-color: #f0f0f0;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    display: inline-block;
+  
+    &::before {
+      content: "\1F321 "; // Thermometer emoji before the text
+      color: #ff6347;
+    }
+  }
