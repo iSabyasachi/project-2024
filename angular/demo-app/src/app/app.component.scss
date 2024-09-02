@@ -1,0 +1,15 @@
+.container {
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    width: 1000px;
+    margin: 20px auto;
+    background-color: #f9f9f9;
+    display: flex; /* Use Flexbox */
+    flex-wrap: wrap; /* Allow items to wrap to the next line */
+    gap: 20px; /* Add space between the components */
+}
+
+.container > div {
+    flex: 1 1 200px; /* Flexible width, but with a minimum width of 200px */
+}
