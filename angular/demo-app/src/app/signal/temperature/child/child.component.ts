@@ -5,7 +5,9 @@ import { Component, computed, input, model, OnInit, output } from '@angular/core
   template: `
   <div class="child-container">
       @if (isExist()) {
-        <span class="temperature-display">{{ celsius() }}&deg;C is {{ fahrenheit() }}&deg;F</span>
+        Formula <span class="temperature-display">
+          ({{ celsius() }}&deg;C * 9/5) + 32 = {{ fahrenheit() }}&deg;F
+        </span>
       } 
       <div class="button-container">
         <button (click)="onLog()">Log</button>
