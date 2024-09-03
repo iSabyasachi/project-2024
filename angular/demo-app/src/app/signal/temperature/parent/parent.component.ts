@@ -5,7 +5,7 @@ import { concat } from 'rxjs';
   selector: 'app-parent',
   template: `
     <div class="parent-container">
-      <h1 class="title">Signals: Temperature Converted</h1>
+      <h1 class="title">Signals: Temperature Converter</h1>
       <div class="input-container">
       Celsius: <input type="text" [(ngModel)]="celsius" placeholder="Enter celsius"
       (keyup) = "onToFahrenheit()"/>
