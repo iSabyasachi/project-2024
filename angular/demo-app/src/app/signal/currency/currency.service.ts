@@ -17,38 +17,25 @@ export class CurrencyService{
     readonly #firstCurrency = signal<Currency>('USD');
     readonly #secondCurrency = signal<Currency>('EUR');
     
-    private http = inject(HttpClient);
-    private exchangeRates$= <Observable<ExchangeRates>>this.http.get('https://lp-store-server.vercel.app/rates');
-    private exchangeRates = toSignal(this.exchangeRates$, {initialValue: {EUR:1, GBP:1, USD:1}});
+    readonly #http = inject(HttpClient);
+    readonly #exchangeRates$= <Observable<ExchangeRates>>this.#http.get('https://lp-store-server.vercel.app/rates');
+    readonly #exchangeRates = toSignal(this.#exchangeRates$, {initialValue: {EUR:1, GBP:1, USD:1}});
     
-    firstCurrencyInfo: Signal<CurrencyInfo> = computed(() => {
-        return {
+    readonly firstCurrencyInfo: Signal<CurrencyInfo> = computed(() => ({
             currency: this.#firstCurrency(),
-            exchangeRate: this.exchangeRates()[this.#firstCurrency()]
-        }
-    });
+            exchangeRate: this.#exchangeRates()[this.#firstCurrency()]
+    }));
 
-    secondCurrencyInfo: Signal<CurrencyInfo> = computed(() => {
-        return {
+    readonly secondCurrencyInfo: Signal<CurrencyInfo> = computed(() => ({
             currency: this.#secondCurrency(),
-            exchangeRate: this.exchangeRates()[this.#secondCurrency()]
-        }
-    });
+            exchangeRate: this.#exchangeRates()[this.#secondCurrency()]
+    }));
 
-    public setFirstCurrency(firstCurrency: Currency){
+    setFirstCurrency(firstCurrency: Currency){
         this.#firstCurrency.set(firstCurrency);
     }
 
-    public setSecondCurrency(secondCurrency: Currency){
+    setSecondCurrency(secondCurrency: Currency){
         this.#secondCurrency.set(secondCurrency);
     }
-
-    public getFirstCurrencyInfo(){
-        return this.firstCurrencyInfo;
-    }
-
-    public getSecondCurrencyInfo(){
-        return this.secondCurrencyInfo;
-    }
-    
 }

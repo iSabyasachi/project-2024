@@ -7,16 +7,16 @@ import { Currency, CurrencyInfo, CurrencyService } from './currency.service';
   <div class="container">
     <h1 class="title">Signals: Currency Converter</h1>
     <div class="input-container">
-      <input type="text" [(ngModel)]="firstInput" (keyup) = "onToFirstInput()"/>
-      <select [value]="firstCurrency()" (change)="onFirstCurrencyChanges($event)">
+      <input type="text" [(ngModel)]="firstInput" (keyup) = "onFirstInputChange()"/>
+      <select [ngModel]="firstCurrencyInfo().currency" (ngModelChange)="onFirstCurrencyChange($event)">
         <option value="USD">United States Dollar</option>
         <option value="EUR">Euro</option>
         <option value="GBP">Pound sterling</option>
       </select>
     </div>
     <div class="input-container">
-      <input type="text" [(ngModel)]="secondInput" (keyup) = "onToSecondInput()"/>
-      <select [value]="secondCurrency()" (change)="onSecondCurrencyChanges($event)">
+      <input type="text" [(ngModel)]="secondInput" (keyup) = "onSecondInputChange()"/>
+      <select [ngModel]="secondCurrencyInfo().currency" (ngModelChange)="onSecondCurrencyChange($event)">
         <option value="USD">United States Dollar</option>
         <option value="EUR">Euro</option>
         <option value="GBP">Pound sterling</option>
@@ -33,15 +33,14 @@ import { Currency, CurrencyInfo, CurrencyService } from './currency.service';
   styleUrl: './currency.component.scss'
 })
 export class CurrencyComponent {
-  //User Inputs
   firstInput = model<number>(1);
   secondInput = model<number>(1.14);
   firstCurrency = signal<Currency>('USD');
   secondCurrency = signal<Currency>('EUR');
 
   #currencyService = inject(CurrencyService);
-  #firstCurrencyInfo = this.#currencyService.getFirstCurrencyInfo();
-  #secondCurrencyInfo = this.#currencyService.getSecondCurrencyInfo();
+  readonly firstCurrencyInfo = this.#currencyService.firstCurrencyInfo;
+  readonly secondCurrencyInfo = this.#currencyService.secondCurrencyInfo;
 
   constructor(){
     effect(() => {
@@ -49,50 +48,34 @@ export class CurrencyComponent {
       console.log(`secondInput is ${this.secondInput()}`);
       console.log(`firstCurrency is ${this.firstCurrency()}`);
       console.log(`secondCurrency is ${this.secondCurrency()}`);
-      console.log(`firstCurrencyInfo is ${JSON.stringify(this.#firstCurrencyInfo())}`);
-      console.log(`secondCurrencyInfo is ${JSON.stringify(this.#secondCurrencyInfo())}`);
+      console.log(`firstCurrencyInfo is ${JSON.stringify(this.firstCurrencyInfo())}`);
+      console.log(`secondCurrencyInfo is ${JSON.stringify(this.secondCurrencyInfo())}`);
     });
   }
 
-  private updateInput(input: ModelSignal<number>, value: number){
-    input.set(value);
+  private convertCurrency(value: number, fromRate: number, toRate: number): number {
+    return Number(((value * toRate) / fromRate).toFixed(2));
   }
 
-  private convertCurrency(value: number, firstRate: number, secondRate: number): number{
-    return Number(((value * firstRate) / secondRate).toFixed(2));
+  private updateConversion() {
+    this.secondInput.set(this.convertCurrency(this.firstInput(), this.firstCurrencyInfo().exchangeRate, this.secondCurrencyInfo().exchangeRate));
   }
 
-  onToFirstInput(){
-    this.updateInput(this.secondInput, 
-      this.convertCurrency(this.firstInput(), this.#secondCurrencyInfo().exchangeRate,
-      this.#firstCurrencyInfo().exchangeRate
-    ));
+  onFirstInputChange(){
+    this.updateConversion();
   }
 
-  onToSecondInput(){
-    this.updateInput(this.firstInput, 
-      this.convertCurrency(this.secondInput(), this.#firstCurrencyInfo().exchangeRate,
-      this.#secondCurrencyInfo().exchangeRate
-    ));
+  onSecondInputChange() {
+    this.firstInput.set(this.convertCurrency(this.secondInput(), this.secondCurrencyInfo().exchangeRate, this.firstCurrencyInfo().exchangeRate));
   }
 
-  onFirstCurrencyChanges(event: Event) {
-    const selectElement = event.target as HTMLSelectElement;
-    this.#currencyService.setFirstCurrency(<Currency>selectElement.value);
-
-    this.updateInput(this.secondInput, 
-      this.convertCurrency(this.firstInput(), this.#secondCurrencyInfo().exchangeRate,
-      this.#firstCurrencyInfo().exchangeRate
-    ));
+  onFirstCurrencyChange(currency: Currency) {
+    this.#currencyService.setFirstCurrency(currency);
+    this.updateConversion();
   }
 
-  onSecondCurrencyChanges(event: Event) {
-    const selectElement = event.target as HTMLSelectElement;
-    this.#currencyService.setSecondCurrency(<Currency>selectElement.value);
-
-    this.updateInput(this.firstInput, 
-      this.convertCurrency(this.secondInput(), this.#firstCurrencyInfo().exchangeRate,
-      this.#secondCurrencyInfo().exchangeRate
-    ));
+  onSecondCurrencyChange(currency: Currency) {
+    this.#currencyService.setSecondCurrency(currency);
+    this.updateConversion();
   }
 }

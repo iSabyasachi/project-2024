@@ -8,7 +8,7 @@ import { Component, computed, effect, signal } from '@angular/core';
     <div class="input-container">
     <p>{{ message() }}</p>
     <div class="button-container">
-    <button (click)="updateMessage()">Update Message (Signal)</button>
+    <button (click)="updateMessage()">Update</button>
     </div>
     </div>
   </div>
