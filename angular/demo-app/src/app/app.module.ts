@@ -11,6 +11,8 @@ import { FormsModule } from '@angular/forms';
 import { NonSignalComponent } from './non-signal/non-signal.component';
 import { SignalComponent } from './signal/signal.component';
 import { RxjsComponent } from './rxjs/rxjs.component';
+import { CurrencyComponent } from './signal/currency/currency.component';
+import { HttpClient, HttpClientModule, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 @NgModule({
   declarations: [
     AppComponent,
@@ -21,13 +23,14 @@ import { RxjsComponent } from './rxjs/rxjs.component';
     NonSignalComponent,
     SignalComponent,
     RxjsComponent,
+    CurrencyComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    FormsModule
+    FormsModule,
 ],
-  providers: [],
+  providers: [provideHttpClient(withInterceptorsFromDi())],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
