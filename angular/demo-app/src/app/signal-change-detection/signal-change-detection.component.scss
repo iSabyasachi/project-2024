@@ -1,42 +1,129 @@
 .container {
-    padding: 20px;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    width: 300px;
-    margin: 20px auto;
-    background-color: #f9f9f9;
-  }
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  width: 300px;
+  margin: 20px auto;
+  background-color: #f9f9f9;
+}
 
-  .title {
-    text-align: center;
-    font-size: 20px;
-    margin-bottom: 30px;
-    color: #333;
-  }
+.title {
+  text-align: center;
+  font-size: 20px;
+  margin-bottom: 30px;
+  color: #333;
+}
 
-  .input-container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 10px;
-  }
+.task-manager-header {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin-bottom: 20px;
+}
 
-  .input-container input {
-    width: 150px;
-    padding: 5px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-  }
+.subtitle {
+  font-size: 18px;
+  color: #555;
+  margin: 0;
+}
 
-  .input-container button {
-    padding: 5px 10px;
-    border: none;
-    border-radius: 4px;
-    background-color: #007bff;
-    color: white;
-    cursor: pointer;
-  }
+span {
+  font-size: 16px;
+  color: #666;
+}
 
-  .log-container {
-    margin-bottom: 15px;
-  }
+.input-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+ul {
+  padding-left: 0;
+  list-style-type: none;
+}
+
+li {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  margin-right: 10px;
+  accent-color: #007bff;
+}
+
+.line-through {
+  text-decoration: line-through;
+  color: #999;
+}
+
+.priority-task {
+  background-color: #fff3cd;
+  border: 1px solid #ffeeba;
+}
+
+.add-task {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.add-task input {
+  flex: 1;
+  padding: 5px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.add-task button {
+  padding: 5px 10px;
+  border: none;
+  border-radius: 4px;
+  background-color: #007bff;
+  color: white;
+  cursor: pointer;
+}
+
+.add-task button:hover {
+  background-color: #0056b3;
+}
+
+.priority-label {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.priority-label input {
+  margin: 0;
+  vertical-align: middle;
+}
+
+/* Define a default button style */
+.filter-button {
+  background-color: white;
+  color: black;
+  border: 1px solid #007bff;
+  cursor: pointer;
+}
+
+.filter-button:hover {
+  background-color: #f0f0f0;
+}
+
+/* Style for the active filter button */
+.active-filter {
+  background-color: #007bff !important;
+  color: white !important;
+  border: none;
+}
+
+button {
+  padding: 5px 10px;
+  border-radius: 4px;
+}

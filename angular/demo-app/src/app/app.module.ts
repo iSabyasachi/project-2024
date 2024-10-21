@@ -13,6 +13,7 @@ import { SignalComponent } from './signal/signal.component';
 import { RxjsComponent } from './rxjs/rxjs.component';
 import { CurrencyComponent } from './signal/currency/currency.component';
 import { HttpClient, HttpClientModule, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { SnackbarComponent } from "./snackbar/snackbar.component";
 @NgModule({
   declarations: [
     AppComponent,
@@ -29,6 +30,7 @@ import { HttpClient, HttpClientModule, provideHttpClient, withInterceptorsFromDi
     BrowserModule,
     AppRoutingModule,
     FormsModule,
+    SnackbarComponent
 ],
   providers: [provideHttpClient(withInterceptorsFromDi())],
   bootstrap: [AppComponent]

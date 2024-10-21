@@ -1,1 +1,52 @@
-<p>signal-change-detection works!</p>
+<div class="container">
+    <h1 class="title">Signals: Component communication</h1>
+    <div class="input-container">
+        <div class="task-manager-header">
+            <h2 class="subtitle">Task Manager</h2>
+            <span>({{ finishedTasksCount() }} / {{ tasks().length }})</span>
+        </div>
+        <!--Add Tasks-->
+        <div class="add-task">
+            <input #titleInput (keydown.enter)="addTask(titleInput, priorityInput)" placeholder="Enter new task"/>
+            <label class="priority-label">
+                <input #priorityInput type="checkbox" /> Priority
+            </label>
+            <button (click)="addTask(titleInput, priorityInput)">Add</button>
+        </div>
+
+        <!-- Task List 
+        - bind the click handler on each item to toggle its completed status 
+        -->
+        <ul>
+            @for (task of filteredTasks(); track $index) {
+                <li (click) = "toggleTask(task)">
+                    <input type="checkbox" [checked]="task.completed" />
+                    <span [ngClass]="{'line-through': task.completed, 'priority-task': task.priority}"> {{ task.title }} </span>
+                </li>
+            }
+        </ul>
+
+        <div class="filter-buttons">
+            <button (click)="changeFilter(filters.All)"
+                [ngClass]="{'active-filter': filter() === filters.All}" class="filter-button p-2 rounded mr-2">
+                All
+            </button>
+            <button (click)="changeFilter(filters.Priority)"
+                [ngClass]="{'active-filter': filter() === filters.Priority}" class="filter-button p-2 rounded mr-2">
+                Priority
+            </button>
+            <button (click)="changeFilter(filters.Active)"
+                [ngClass]="{'active-filter': filter() === filters.Active}" class="filter-button p-2 rounded mr-2">
+                Active
+            </button>
+            <button (click)="changeFilter(filters.Completed)"
+                [ngClass]="{'active-filter': filter() === filters.Completed}" class="filter-button p-2 rounded">
+                Completed
+            </button>
+        </div>
+    </div>
+  </div>
+
+  <app-snackbar>
+    Congratulations! You completed all tasks.
+  </app-snackbar>

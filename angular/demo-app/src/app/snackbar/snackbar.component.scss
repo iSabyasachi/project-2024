@@ -1,0 +1,28 @@
+.snackbar-container {
+    background-color: #007bff; /* Consistent blue color (or change to #6f42c1 for purple) */
+    color: white; /* White text */
+    border-radius: 8px; /* Matches rounded button styles */
+    padding: 10px 20px; /* Padding for spacing inside the snackbar */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Light shadow for subtle effect */
+    animation: slide-in 0.3s ease-out, fade-out 0.5s ease-in 3s forwards; /* Slide-in and fade-out effect */
+}
+
+@keyframes slide-in {
+    0% {
+        transform: translateY(50px);
+        opacity: 0;
+    }
+    100% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+@keyframes fade-out {
+    0% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+    }
+}
