@@ -5,7 +5,7 @@ import { concat } from 'rxjs';
   selector: 'app-parent',
   template: `
     <div class="parent-container">
-      <h1 class="title">Signals: Temperature Converter</h1>
+      <h1 class="title">input(): Temperature Converter</h1>
       <div class="input-container">
       Celsius: <input type="text" [(ngModel)]="celsius" placeholder="Enter celsius"
       (keyup) = "onToFahrenheit()"/>
@@ -27,6 +27,13 @@ import { concat } from 'rxjs';
   styleUrl: './parent.component.scss'
 })
 export class ParentComponent {
+  /**
+   * https://angular.dev/guide/signals/inputs
+   * https://angular.dev/guide/signals/model
+   * 
+   * While standard inputs are read-only, you can write directly to model inputs.
+   * It defines both an input and an output. It supports two way binding.
+   */
   celsius = model<number>(0);
   fahrenheit = model<number>(32);
 

@@ -5,7 +5,7 @@ import { BehaviorSubject, map } from 'rxjs';
   selector: "app-rxjs",
   template: `
   <div class="container">
-    <h1 class="title">RxJs Demo</h1>
+    <h1 class="title">RxJs Change Detection</h1>
     <div class="input-container">
     Count: {{ count$ | async }} <br>
     Double Count: {{ doubleCount$ | async }} <br>

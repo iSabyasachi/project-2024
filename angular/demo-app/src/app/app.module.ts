@@ -32,7 +32,7 @@ import { SnackbarComponent } from "./snackbar/snackbar.component";
     FormsModule,
     SnackbarComponent
 ],
-  providers: [provideHttpClient(withInterceptorsFromDi())],
+  providers: [provideHttpClient(withInterceptorsFromDi()), provideExperimentalZonelessChangeDetection()],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

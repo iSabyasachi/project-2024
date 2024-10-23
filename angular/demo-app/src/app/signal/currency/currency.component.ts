@@ -5,7 +5,7 @@ import { Currency, CurrencyInfo, CurrencyService } from './currency.service';
   selector: "app-currency",
   template: `
   <div class="container">
-    <h1 class="title">Signals: Currency Converter</h1>
+    <h1 class="title">toSignal(): Currency Converter</h1>
     <div class="input-container">
       <input type="text" [(ngModel)]="firstInput" (keyup) = "onFirstInputChange()"/>
       <select [ngModel]="firstCurrencyInfo().currency" (ngModelChange)="onFirstCurrencyChange($event)">

@@ -4,7 +4,7 @@ import { Component } from '@angular/core';
   selector: "app-non-signal",
   template: `
   <div class="container">
-    <h1 class="title">Non-Signals Demo</h1>
+    <h1 class="title">Non-Signals Change Detection</h1>
     <div class="input-container">
     Count: {{ count }} <br>
     Double Count: {{ doubleCount }} <br>

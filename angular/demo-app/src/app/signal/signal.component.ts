@@ -4,7 +4,7 @@ import { Component, computed, signal } from '@angular/core';
   selector: "app-signal",
   template: `
   <div class="container">
-    <h1 class="title">Signals Demo</h1>
+    <h1 class="title">Signals Change Detection</h1>
     <div class="input-container">
     Count: {{ count() }} <br>
     Double Count: {{ doubleCount() }} <br>
