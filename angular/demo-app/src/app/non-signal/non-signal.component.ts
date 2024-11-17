@@ -25,7 +25,7 @@ export class NonSignalComponent {
     changeCount(){
         this.count = 5;
 
-        //this.doubleCount = this.count * 2;
-        //this.doubleDoubleCount = this.doubleCount * 2;
+        this.doubleCount = this.count * 2;
+        this.doubleDoubleCount = this.doubleCount * 2;
     }
 }
