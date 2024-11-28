@@ -4,7 +4,8 @@
   "main": "index.js",
   "scripts": {
     "clean": "rimraf dist",
-    "build": "npm run clean && npm run format && npm run lint && tsc && echo '\\033[0;32mBuild is successful!\\033[0m'",
+    "build": "node build.js",
+    "mybuild": "npm run clean && npm run format && npm run lint && tsc && echo '\\033[0;32mBuild is successful!\\033[0m'",
     "test": "jest",
     "start": "ts-node src/main.ts",
     "format": "prettier --write . && echo '\\033[0;32mAll files formatted successfully!\\033[0m'",
