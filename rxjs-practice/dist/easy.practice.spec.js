@@ -30,7 +30,7 @@ test('errorHandlingWithCatchError', async () => {
     const actual = await (0, easy_practice_1.errorHandlingWithCatchError)();
     expect(actual).toEqual([1, 2, 3, 4, 5, 'Handled Infinity']);
 });
-test("filterEvenNumbers", (done) => {
+test('filterEvenNumbers', (done) => {
     const result$ = (0, easy_practice_1.filterEvenNumbers)();
     result$.subscribe((value) => {
         expect(value).toEqual([2, 4]);
@@ -39,7 +39,7 @@ test("filterEvenNumbers", (done) => {
 });
 test('debounceSearchInput', (done) => {
     const actual = (0, easy_practice_1.debounceSearchInput)();
-    actual.subscribe(value => {
+    actual.subscribe((value) => {
         expect(value).toContain('Hel');
         done();
     });
@@ -51,7 +51,7 @@ test('multipleByTwoObservable', (done) => {
         },
         complete: () => {
             done();
-        }
+        },
     });
 });
 describe('Easy: 1. Basic Stream Creation and Subscription', () => {

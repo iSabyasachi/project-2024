@@ -19,8 +19,8 @@ import {
   interval,
   delay,
   shareReplay,
-} from "rxjs";
-import { mockUserInputs } from "./utils/mock.keystroke";
+} from 'rxjs';
+import { mockUserInputs } from './utils/mock.keystroke';
 
 /**
  * 
@@ -31,19 +31,19 @@ export function replayLastEmittedValueWithShareReplay() {
   const shared$ = interval(1000).pipe(take(6), shareReplay(3), toArray());
 
   shared$.subscribe({
-    next: (x) => console.log("sub A: ", x),
-    complete: () => console.log("sub A completed!"),
+    next: (x) => console.log('sub A: ', x),
+    complete: () => console.log('sub A completed!'),
   });
 
   shared$.subscribe({
-    next: (y) => console.log("sub B: ", y),
-    complete: () => console.log("sub B completed!"),
+    next: (y) => console.log('sub B: ', y),
+    complete: () => console.log('sub B completed!'),
   });
 
   setTimeout(() => {
     shared$.subscribe({
-      next: (z) => console.log("sub C: ", z),
-      complete: () => console.log("sub C completed!"),
+      next: (z) => console.log('sub C: ', z),
+      complete: () => console.log('sub C completed!'),
     });
   }, 11000);
 }
@@ -70,13 +70,13 @@ export function throttleClickEvents(): Promise<number[]> {
   // Create an observable that emits 6 after 2 seconds
   const delayed6$ = of(6).pipe(
     tap(() => {
-      console.log("Waiting!!!");
+      console.log('Waiting!!!');
     }),
     delay(2000)
   );
 
   // Combine the original observable with the delayed value
-  let newNums$ = concat(nums$, delayed6$);
+  const newNums$ = concat(nums$, delayed6$);
 
   const result$ = newNums$.pipe(
     tap((num) => {
@@ -112,12 +112,12 @@ export function usingTakeOperator(): Promise<number[]> {
 	•	Combine two observables using concat to emit values sequentially.
  */
 export function combiningObservablesWithZip(): Promise<string> {
-  const letter$ = of("a", "b");
+  const letter$ = of('a', 'b');
   const num$ = of(1, 2);
 
   const result$ = zip(letter$, num$).pipe(
     tap(([letter, num]) => {
-      console.log("letter ", letter, "num", num);
+      console.log('letter ', letter, 'num', num);
     }),
     map(([letter, num]) => {
       return letter + num.toString();
@@ -131,7 +131,7 @@ export function combiningObservablesWithZip(): Promise<string> {
 	•	Combine two observables using concat to emit values sequentially.
  */
 export function combiningObservablesWithConcat(): Promise<(string | number)[]> {
-  const letter$ = of("a", "b");
+  const letter$ = of('a', 'b');
   const num$ = of(1, 2);
 
   const result$ = concat(letter$, num$).pipe(
@@ -152,13 +152,13 @@ export function errorHandlingWithCatchError(): Promise<(number | string)[]> {
   const result$ = nums$.pipe(
     map((num) => {
       if (!isFinite(num)) {
-        throw new Error("Infinity detected!");
+        throw new Error('Infinity detected!');
       }
       return num;
     }),
     catchError((err) => {
-      //console.error('Error Caught:', err.message);
-      return of("Handled Infinity");
+      console.error('Error Caught:', err.message);
+      return of('Handled Infinity');
     }),
     toArray()
   );
@@ -184,7 +184,7 @@ export function filterEvenNumbers(): Observable<number[]> {
  * 
 */
 export function debounceSearchInput(): Observable<string> {
-  let input: Subject<string> = mockUserInputs();
+  const input: Subject<string> = mockUserInputs();
 
   return input.pipe(debounceTime(500), distinctUntilChanged());
 }
@@ -246,5 +246,5 @@ async function fetchNumber(): Promise<number[]> {
 }
 
 export function exampleObservable() {
-  return of("Hello, RxJS!");
+  return of('Hello, RxJS!');
 }

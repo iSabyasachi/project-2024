@@ -8,8 +8,8 @@ async function getData() {
     const response = await fetch('https://example.com');
     return response.text();
 }
-async function getDataAndHandleError(url) {
-    return new Promise(async (resolve, reject) => {
+function getDataAndHandleError(url) {
+    return new Promise((resolve, reject) => {
         try {
             setTimeout(async () => {
                 const response = await fetch(url);

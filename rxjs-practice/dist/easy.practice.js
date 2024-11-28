@@ -17,10 +17,6 @@ exports.exampleObservable = exampleObservable;
 // src/practice.ts
 const rxjs_1 = require("rxjs");
 const mock_keystroke_1 = require("./utils/mock.keystroke");
-// export function main(){
-//   replayLastEmittedValueWithShareReplay();
-// }
-// main();
 /**
  *
  * Replay Last Emitted Value with shareReplay
@@ -29,17 +25,17 @@ const mock_keystroke_1 = require("./utils/mock.keystroke");
 function replayLastEmittedValueWithShareReplay() {
     const shared$ = (0, rxjs_1.interval)(1000).pipe((0, rxjs_1.take)(6), (0, rxjs_1.shareReplay)(3), (0, rxjs_1.toArray)());
     shared$.subscribe({
-        next: x => console.log('sub A: ', x),
-        complete: () => console.log('sub A completed!')
+        next: (x) => console.log('sub A: ', x),
+        complete: () => console.log('sub A completed!'),
     });
     shared$.subscribe({
-        next: y => console.log('sub B: ', y),
-        complete: () => console.log('sub B completed!')
+        next: (y) => console.log('sub B: ', y),
+        complete: () => console.log('sub B completed!'),
     });
     setTimeout(() => {
         shared$.subscribe({
-            next: z => console.log('sub C: ', z),
-            complete: () => console.log('sub C completed!')
+            next: (z) => console.log('sub C: ', z),
+            complete: () => console.log('sub C completed!'),
         });
     }, 11000);
 }
@@ -64,7 +60,7 @@ function throttleClickEvents() {
         console.log('Waiting!!!');
     }), (0, rxjs_1.delay)(2000));
     // Combine the original observable with the delayed value
-    let newNums$ = (0, rxjs_1.concat)(nums$, delayed6$);
+    const newNums$ = (0, rxjs_1.concat)(nums$, delayed6$);
     const result$ = newNums$.pipe((0, rxjs_1.tap)((num) => {
         console.log(num);
     }), (0, rxjs_1.throttle)(() => (0, rxjs_1.interval)(1000)), (0, rxjs_1.toArray)());
@@ -114,13 +110,13 @@ function combiningObservablesWithConcat() {
 */
 function errorHandlingWithCatchError() {
     const nums$ = (0, rxjs_1.of)(1, 2, 3, 4, 5, 6 / 0);
-    const result$ = nums$.pipe((0, rxjs_1.map)(num => {
+    const result$ = nums$.pipe((0, rxjs_1.map)((num) => {
         if (!isFinite(num)) {
             throw new Error('Infinity detected!');
         }
         return num;
     }), (0, rxjs_1.catchError)((err) => {
-        //console.error('Error Caught:', err.message);
+        console.error('Error Caught:', err.message);
         return (0, rxjs_1.of)('Handled Infinity');
     }), (0, rxjs_1.toArray)());
     return (0, rxjs_1.firstValueFrom)(result$);
@@ -131,7 +127,7 @@ function errorHandlingWithCatchError() {
 */
 function filterEvenNumbers() {
     const nums$ = (0, rxjs_1.of)(1, 2, 3, 4, 5);
-    return nums$.pipe((0, rxjs_1.filter)(num => num % 2 == 0), (0, rxjs_1.toArray)());
+    return nums$.pipe((0, rxjs_1.filter)((num) => num % 2 == 0), (0, rxjs_1.toArray)());
 }
 /**
  * 3. Easy: Debouncing a Search Input
@@ -139,7 +135,7 @@ function filterEvenNumbers() {
  *
 */
 function debounceSearchInput() {
-    let input = (0, mock_keystroke_1.mockUserInputs)();
+    const input = (0, mock_keystroke_1.mockUserInputs)();
     return input.pipe((0, rxjs_1.debounceTime)(500), (0, rxjs_1.distinctUntilChanged)());
 }
 /**
@@ -148,13 +144,13 @@ function debounceSearchInput() {
  *
  */
 function multipleByTwoObservable() {
-    return (0, rxjs_1.of)([1, 2, 3, 4, 5]).pipe((0, rxjs_1.map)(numArray => numArray.map(ele => ele * 2)));
+    return (0, rxjs_1.of)([1, 2, 3, 4, 5]).pipe((0, rxjs_1.map)((numArray) => numArray.map((ele) => ele * 2)));
 }
 function collectEvenNumbersFromArray() {
     const result = [];
     const arr$ = (0, rxjs_1.of)([1, 2, 3, 4, 5]);
-    arr$.subscribe(arr => {
-        arr.filter(num => num % 2 == 0).forEach(num => result.push(num));
+    arr$.subscribe((arr) => {
+        arr.filter((num) => num % 2 == 0).forEach((num) => result.push(num));
     });
     return result;
 }
@@ -162,16 +158,18 @@ function collectEvenNumbersFromObject() {
     const result = [];
     const inputObj = {
         arr: [1, 2, 3, 4],
-        isEven: true
+        isEven: true,
     };
     const numObj$ = (0, rxjs_1.of)(inputObj);
     numObj$.subscribe((numObj) => {
-        numObj.arr.filter(num => numObj.isEven && num % 2 == 0).forEach(num => result.push(num));
+        numObj.arr
+            .filter((num) => numObj.isEven && num % 2 == 0)
+            .forEach((num) => result.push(num));
     });
     return result;
 }
 function collectEvenNumbersFromPromise() {
-    return fetchNumber().then(nums => nums.filter(num => num % 2 == 0));
+    return fetchNumber().then((nums) => nums.filter((num) => num % 2 == 0));
 }
 async function fetchNumber() {
     return new Promise((resolve) => {

@@ -1,6 +1,6 @@
-import { replayLastEmittedValueWithShareReplay } from "./easy.practice";
+import { replayLastEmittedValueWithShareReplay } from './easy.practice';
 
-export function main(){
-    replayLastEmittedValueWithShareReplay();
+export function main() {
+  replayLastEmittedValueWithShareReplay();
 }
 main();
