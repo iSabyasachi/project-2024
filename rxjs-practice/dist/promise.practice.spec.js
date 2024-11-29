@@ -9,15 +9,17 @@ test('getDataAndHandleError', async () => {
     const actual = await (0, promise_practice_1.getDataAndHandleError)('https://example.com');
     expect(actual.includes('Example Domain')).toBeTruthy();
 });
-// test('getDataAndHandleError should reject with error message', async () => {
-//   await expect(getDataAndHandleError('https://eeeexample.com')).rejects.toEqual(
-//     'TypeError: fetch failed'
-//   );
-// });
+test('getDataAndHandleError should reject with error message', (done) => {
+    const actual = (0, promise_practice_1.getDataAndHandleError)('https://eeeexample.com');
+    actual.catch((err) => {
+        expect(err).toEqual('TypeError: fetch failed');
+    });
+    done();
+});
 test('getDataWithObservable', (done) => {
     const actual = (0, promise_practice_1.getDataWithObservable)('https://example.com');
     actual.subscribe((value) => {
         expect(value.includes('Example Domain')).toBeTruthy();
-        done();
     });
+    done();
 });
