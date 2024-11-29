@@ -1,6 +1,6 @@
-import { replayLastEmittedValueWithShareReplay } from './easy.practice';
+import { autoCompleteSearchWithSwitchMap } from './medium.practice';
 
 export function main() {
-  replayLastEmittedValueWithShareReplay();
+  autoCompleteSearchWithSwitchMap();
 }
 main();
