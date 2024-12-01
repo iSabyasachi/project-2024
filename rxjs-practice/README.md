@@ -18,6 +18,7 @@
       - [Code Implementation: Using `take` Operator](#code-implementation-using-take-operator)
       - [Code Implementation: Throttle Click Events](#code-implementation-throttle-click-events)
       - [Code Implementation: Basic Timer with `interval`](#code-implementation-basic-timer-with-interval)
+      - [Code Implementation: Replay Last Emitted Value with `shareReplay`](#code-implementation-replay-last-emitted-value-with-sharereplay)
     - [Medium](#medium)
     - [Hard](#hard)
 
