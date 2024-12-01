@@ -1,9 +1,37 @@
 ## Table of Contents
 
+## Table of Contents
+
 - [Table of Contents](#table-of-contents)
+- [Table of Contents](#table-of-contents-1)
 - [Installation](#installation)
 - [Concepts](#concepts)
+  - [Operator:](#operator)
 - [Problems](#problems)
+  - [RxJS Problem Challenges](#rxjs-problem-challenges)
+    - [Easy](#easy)
+      - [Code Implementation](#code-implementation)
+        - [1. Collect Even Numbers from Array](#1-collect-even-numbers-from-array)
+        - [2. Collect Even Numbers from Object](#2-collect-even-numbers-from-object)
+        - [3. Collect Even Numbers from Promise](#3-collect-even-numbers-from-promise)
+      - [Code Implementation](#code-implementation-1)
+        - [Simple Transformation with `map`](#simple-transformation-with-map)
+      - [Code Implementation](#code-implementation-2)
+        - [Debouncing a Search Input](#debouncing-a-search-input)
+      - [Code Implementation](#code-implementation-3)
+        - [Filtering Even Numbers](#filtering-even-numbers)
+      - [Code Implementation](#code-implementation-4)
+        - [Error Handling with `catchError`](#error-handling-with-catcherror)
+      - [Code Implementation](#code-implementation-5)
+        - [Combining Observables with `concat`](#combining-observables-with-concat)
+      - [Code Implementation](#code-implementation-6)
+        - [Using `take` Operator](#using-take-operator)
+      - [Code Implementation](#code-implementation-7)
+        - [Throttle Click Events](#throttle-click-events)
+      - [Code Implementation](#code-implementation-8)
+        - [Basic Timer with `interval`](#basic-timer-with-interval)
+    - [Medium](#medium)
+    - [Hard](#hard)
 
 ## Installation
 
@@ -72,21 +100,121 @@
 
 ## Problems
 
-# RxJS Problem Challenges
+### RxJS Problem Challenges
 
 Here are **20 combinations** of **easy**, **medium**, and **hard** RxJS problems to help build competency progressively. These challenges cover a wide range of RxJS concepts and usage patterns:
 
 ---
 
-## Easy
+#### Easy
 
 1. **Basic Stream Creation and Subscription**  
    Create an observable from an array, object, and promise. Log each emitted value to the console.
 
+   ##### Code Implementation
+
+   ###### 1. Collect Even Numbers from Array
+
+   This implementation uses an RxJS observable to collect even numbers from an array:
+
+   ```typescript
+   import { of } from 'rxjs';
+
+   export function collectEvenNumbersFromArray(): number[] {
+     const result: number[] = [];
+     const arr$ = of([1, 2, 3, 4, 5]);
+
+     arr$.subscribe((arr) => {
+       arr.filter((num) => num % 2 == 0).forEach((num) => result.push(num));
+     });
+
+     return result;
+   }
+   ```
+
+   ###### 2. Collect Even Numbers from Object
+
+   This implementation processes an object with an array property and a flag to determine whether to filter for even numbers:
+
+   ```typescript
+   import { of } from 'rxjs';
+
+   type NumObj = {
+     arr: number[];
+     isEven: boolean;
+   };
+
+   export function collectEvenNumbersFromObject(): number[] {
+     const result: number[] = [];
+     const inputObj: NumObj = {
+       arr: [1, 2, 3, 4],
+       isEven: true,
+     };
+     const numObj$ = of(inputObj);
+
+     numObj$.subscribe((numObj) => {
+       numObj.arr
+         .filter((num) => numObj.isEven && num % 2 == 0)
+         .forEach((num) => result.push(num));
+     });
+
+     return result;
+   }
+   ```
+
+   ###### 3. Collect Even Numbers from Promise
+
+   This implementation demonstrates how to process even numbers from a promise:
+
+   ```typescript
+   export function collectEvenNumbersFromPromise(): Promise<number[]> {
+     return fetchNumber().then((nums) => nums.filter((num) => num % 2 == 0));
+   }
+
+   async function fetchNumber(): Promise<number[]> {
+     return new Promise((resolve) => {
+       setTimeout(() => {
+         resolve([1, 2, 3, 4, 5]);
+       }, 1000); // Simulates an async operation
+     });
+   }
+
+   // Test Case
+   import {
+     collectEvenNumbersFromArray,
+     collectEvenNumbersFromObject,
+     collectEvenNumbersFromPromise,
+   } from './easy.practice';
+
+   describe('Easy: Basic Stream Creation and Subscription', () => {
+     test('collectEvenNumbersFromArray', (done) => {
+       const actual = collectEvenNumbersFromArray();
+
+       expect(actual).toEqual([2, 4]); // Expect only even numbers from the array
+       done();
+     });
+
+     test('collectEvenNumbersFromObject', (done) => {
+       const actual = collectEvenNumbersFromObject();
+
+       expect(actual).toEqual([2, 4]); // Expect only even numbers based on the object properties
+       done();
+     });
+
+     test('collectEvenNumbersFromPromise', async () => {
+       const actual = await collectEvenNumbersFromPromise();
+
+       expect(actual).toEqual([2, 4]); // Expect only even numbers from the promise
+     });
+   });
+   ```
+
 2. **Simple Transformation with `map`**  
    Use `map` to multiply each emitted value in a stream by 2.
 
-   #### Code Implementation
+   ##### Code Implementation
+
+   ###### Simple Transformation with `map`
 
    ```typescript
    import { of, Observable } from 'rxjs';
@@ -117,9 +245,9 @@ Here are **20 combinations** of **easy**, **medium**, and **hard** RxJS problems
 3. **Debouncing a Search Input**  
    Implement a debounced search input that emits a search term after a 500ms delay.
 
-   ## Code Implementation
+   ##### Code Implementation
 
-   ### Example: Debounce Search Input
+   ###### Debouncing a Search Input
 
    The following implementation demonstrates the use of `debounceTime` and `distinctUntilChanged` to handle user inputs efficiently by reducing the frequency of emitted values:
 
@@ -161,9 +289,9 @@ Here are **20 combinations** of **easy**, **medium**, and **hard** RxJS problems
 4. **Filtering Even Numbers**  
    Use `filter` to emit only even numbers from a stream.
 
-   ## Code Implementation
+   ##### Code Implementation
 
-   ### Example: Filter Even Numbers
+   ###### Filtering Even Numbers
 
    The following implementation demonstrates the use of `filter` to emit only even numbers from a stream:
 
@@ -195,9 +323,9 @@ Here are **20 combinations** of **easy**, **medium**, and **hard** RxJS problems
 5. **Error Handling with `catchError`**  
    Create a stream that throws an error and use `catchError` to handle it gracefully by returning a default value.
 
-   ## Code Implementation
+   ##### Code Implementation
 
-   ### Example: Error Handling with `catchError`
+   ###### Error Handling with `catchError`
 
    The following implementation demonstrates the use of `catchError` to handle errors in a stream:
 
@@ -239,9 +367,9 @@ Here are **20 combinations** of **easy**, **medium**, and **hard** RxJS problems
 6. **Combining Observables with `concat`**  
    Combine two observables using `concat` to emit values sequentially.
 
-   ## Code Implementation
+   ##### Code Implementation
 
-   ### Example: Combining Observables with `concat`
+   ###### Combining Observables with `concat`
 
    The following implementation demonstrates how to combine multiple observables sequentially using `concat`:
 
@@ -277,9 +405,9 @@ Here are **20 combinations** of **easy**, **medium**, and **hard** RxJS problems
 7. **Using `take` Operator**  
    Create a stream that emits numbers from 1 to 10 and use `take(5)` to get only the first five values.
 
-   ## Code Implementation
+   ##### Code Implementation
 
-   ### Example: Using `take` Operator
+   ###### Using `take` Operator
 
    The following implementation demonstrates how to use the `take` operator to limit the number of emitted values:
 
@@ -314,9 +442,9 @@ Here are **20 combinations** of **easy**, **medium**, and **hard** RxJS problems
 8. **Throttle Click Events**  
    Listen to click events on a button and throttle them to emit one event every 1 second.
 
-   ## Code Implementation
+   ##### Code Implementation
 
-   ### Example: Throttle Click Events
+   ###### Throttle Click Events
 
    The following implementation demonstrates how to use `throttle` to limit the rate at which values are emitted from a stream:
 
@@ -363,9 +491,9 @@ Here are **20 combinations** of **easy**, **medium**, and **hard** RxJS problems
 9. **Basic Timer with `interval`**  
    Use `interval` to create a timer that emits values every second.
 
-   ## Code Implementation
+   ##### Code Implementation
 
-   ### Example: Basic Timer with `interval`
+   ###### Basic Timer with `interval`
 
    The following implementation demonstrates how to use `interval` to create a timer that emits sequential numbers at 1-second intervals:
 
@@ -396,9 +524,9 @@ Here are **20 combinations** of **easy**, **medium**, and **hard** RxJS problems
 10. **Replay Last Emitted Value with `shareReplay`**  
     Use `shareReplay` to create a shared observable that replays the last emitted value to new subscribers.
 
-    ## Code Implementation
+    ##### Code Implementation
 
-    ### Example: Replay Last Emitted Value with `shareReplay`
+    ###### Replay Last Emitted Value with `shareReplay`
 
     The following implementation demonstrates how to use `shareReplay` to share an observable among multiple subscribers while replaying the last three emitted values:
 
@@ -445,14 +573,14 @@ Here are **20 combinations** of **easy**, **medium**, and **hard** RxJS problems
 
 ---
 
-## Medium
+#### Medium
 
 11. **Implement an Autocomplete Search with `switchMap`**  
     Build an autocomplete search component that uses `switchMap` to cancel previous requests when a new search term is entered.
 
-    ## Code Implementation
+    ##### Code Implementation
 
-    ### Example: AutoComplete Search with `switchMap`
+    ###### Implement an Autocomplete Search with `switchMap`
 
     The following implementation demonstrates an autocomplete search functionality using `switchMap` to handle user input and simulate HTTP requests:
 
@@ -499,7 +627,9 @@ Here are **20 combinations** of **easy**, **medium**, and **hard** RxJS problems
 12. **Buffer Click Events**  
     Use `bufferCount` to collect a certain number of click events before emitting them as an array.
 
-    ## Code Implementation
+    ##### Code Implementation
+
+    ###### Buffer Click Events
 
     The following implementation uses the `bufferCount` operator to group emitted values into arrays based on a count and a skip value:
 
@@ -535,9 +665,9 @@ Here are **20 combinations** of **easy**, **medium**, and **hard** RxJS problems
 13. **Conditional Emission with `takeWhile`**  
     Emit values from an observable until a certain condition is met using `takeWhile`.
 
-    ## Code Implementation
+    ##### Code Implementation
 
-    ### Example: Conditional Emission with `takeWhile`
+    ###### Buffer Click EventsConditional Emission with `takeWhile`
 
     The following implementation demonstrates the use of `takeWhile` to emit numbers from a stream until a specified condition is met:
 
@@ -569,9 +699,9 @@ Here are **20 combinations** of **easy**, **medium**, and **hard** RxJS problems
 14. **Retry on Error**  
     Create a stream that simulates an API request, with a 50% chance of failing. Use `retry` to retry the request up to three times.
 
-    ## Code Implementation
+    ##### Code Implementation
 
-    ### Example: Retry on Error
+    ###### Retry on Error
 
     The following implementation simulates an API request with a 50% chance of failure. It retries the request up to 3 times before handling the error:
 
@@ -639,7 +769,7 @@ Here are **20 combinations** of **easy**, **medium**, and **hard** RxJS problems
 
 ---
 
-## Hard
+#### Hard
 
 21. **Custom Operator Implementation**  
     Create a custom operator that emits only values that are prime numbers from a given stream.
