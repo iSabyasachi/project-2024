@@ -18,7 +18,15 @@
 
 ## Concept
 
-<TODO>
+### Operator:
+
+- **switchMap**:  
+  `switchMap` is an RxJS operator that maps each emitted value from an observable into a new observable, subscribes to the latest one, and automatically cancels any previous subscriptions, ensuring only the latest observable’s emissions are processed.
+
+- **mergeMap**:  
+  - Use when transforming one Observable’s emissions into another Observable and flattening the result.  
+  - Suitable when the **order of emissions doesn’t matter**.  
+  - Provides flexibility in handling **concurrency**.
 
 ## Problems
 
