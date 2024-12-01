@@ -23,6 +23,7 @@
       - [Code Implementation: Implement an Autocomplete Search with `switchMap`](#code-implementation-implement-an-autocomplete-search-with-switchmap)
       - [Code Implementation: Buffer Click Events](#code-implementation-buffer-click-events)
       - [Code Implementation: Buffer Click EventsConditional Emission with takeWhile](#code-implementation-buffer-click-eventsconditional-emission-with-takewhile)
+      - [Code Implementation: Retry on Error](#code-implementation-retry-on-error)
     - [Hard](#hard)
 
 ## Installation
