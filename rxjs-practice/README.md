@@ -7,23 +7,24 @@
 - [Problems](#problems)
   - [RxJS Problem Challenges](#rxjs-problem-challenges)
     - [Easy](#easy)
-      - [Code Implementation for Collect Even Numbers from Array](#code-implementation-for-collect-even-numbers-from-array)
+      - [Code Implementation: Collect Even Numbers from Array](#code-implementation-collect-even-numbers-from-array)
       - [Code Implementation for Collect Even Numbers from Object](#code-implementation-for-collect-even-numbers-from-object)
       - [Code Implementation for Collect Even Numbers from Promise](#code-implementation-for-collect-even-numbers-from-promise)
-      - [Code Implementation for Simple Transformation with `map`](#code-implementation-for-simple-transformation-with-map)
-      - [Code Implementation for Debouncing a Search Input](#code-implementation-for-debouncing-a-search-input)
-      - [Code Implementation for Filtering Even Numbers](#code-implementation-for-filtering-even-numbers)
-      - [Code Implementation for Error Handling with `catchError`](#code-implementation-for-error-handling-with-catcherror)
-      - [Code Implementation for Combining Observables with `concat`](#code-implementation-for-combining-observables-with-concat)
-      - [Code Implementation for Using `take` Operator](#code-implementation-for-using-take-operator)
-      - [Code Implementation for Throttle Click Events](#code-implementation-for-throttle-click-events)
-      - [Code Implementation for Basic Timer with `interval`](#code-implementation-for-basic-timer-with-interval)
+      - [Code Implementation: Simple Transformation with `map`](#code-implementation-simple-transformation-with-map)
+      - [Code Implementation: Debouncing a Search Input](#code-implementation-debouncing-a-search-input)
+      - [Code Implementation: Filtering Even Numbers](#code-implementation-filtering-even-numbers)
+      - [Code Implementation: Error Handling with `catchError`](#code-implementation-error-handling-with-catcherror)
+      - [Code Implementation: Combining Observables with `concat`](#code-implementation-combining-observables-with-concat)
+      - [Code Implementation: Using `take` Operator](#code-implementation-using-take-operator)
+      - [Code Implementation: Throttle Click Events](#code-implementation-throttle-click-events)
+      - [Code Implementation: Basic Timer with `interval`](#code-implementation-basic-timer-with-interval)
     - [Medium](#medium)
     - [Hard](#hard)
 
 ## Installation
 
-1. Clone the repository: `git clone https://github.com/iSabyasachi/project-2024.git`
+1. Clone the repository:
+   `git clone https://github.com/iSabyasachi/project-2024.git`
 2. Navigate to the project directory: `cd rxjs-practice`
 3. Install dependencies: `npm install`
 4. Build project: `npm run build`
@@ -37,71 +38,100 @@
 ### Operator:
 
 - **switchMap**:  
-  `switchMap` is an RxJS operator that maps each emitted value from an observable into a new observable, subscribes to the latest one, and automatically cancels any previous subscriptions, ensuring only the latest observable’s emissions are processed.
+  `switchMap` is an RxJS operator that maps each emitted value from an
+  observable into a new observable, subscribes to the latest one, and
+  automatically cancels any previous subscriptions, ensuring only the latest
+  observable’s emissions are processed.
 
 - **mergeMap**:
-  - Use when transforming one Observable’s emissions into another Observable and flattening the result.
+  - Use when transforming one Observable’s emissions into another Observable and
+    flattening the result.
   - Suitable when the **order of emissions doesn’t matter**.
   - Provides flexibility in handling **concurrency**.
 - **shareReplay**:  
-  The `shareReplay` operator shares a source observable among multiple subscribers and replays the specified number of last emitted values to new subscribers.
+  The `shareReplay` operator shares a source observable among multiple
+  subscribers and replays the specified number of last emitted values to new
+  subscribers.
 
 - **interval**:  
-  The `interval` operator creates an observable that emits sequential numbers at specified time intervals.
+  The `interval` operator creates an observable that emits sequential numbers at
+  specified time intervals.
 
 - **take**:
 
-  - The `take` operator limits the number of values emitted from an observable to a specified count.
-  - The `take` operator emits only the first specified number of values from an observable and then completes.
+  - The `take` operator limits the number of values emitted from an observable
+    to a specified count.
+  - The `take` operator emits only the first specified number of values from an
+    observable and then completes.
 
 - **throttle**:  
-  The `throttle` operator limits the rate at which values are emitted from an observable by emitting the first value and ignoring subsequent values for a specified duration.
+  The `throttle` operator limits the rate at which values are emitted from an
+  observable by emitting the first value and ignoring subsequent values for a
+  specified duration.
 
 - **concat**:
 
-  - The `concat` operator sequentially combines observables, emitting all values from the first observable before proceeding to the next.
-  - The `concat` operator combines multiple observables by emitting all values from the first observable, then all values from the second, and so on, in sequence. It ensures that the previous observable completes before starting the next.
+  - The `concat` operator sequentially combines observables, emitting all values
+    from the first observable before proceeding to the next.
+  - The `concat` operator combines multiple observables by emitting all values
+    from the first observable, then all values from the second, and so on, in
+    sequence. It ensures that the previous observable completes before starting
+    the next.
 
 - **catchError**:  
-  The `catchError` operator handles errors in an observable sequence and allows you to recover gracefully by returning a fallback observable or value.
+  The `catchError` operator handles errors in an observable sequence and allows
+  you to recover gracefully by returning a fallback observable or value.
 
 - **filter**:  
-  The `filter` operator emits values from the source observable that satisfy a specified condition, discarding those that do not.
+  The `filter` operator emits values from the source observable that satisfy a
+  specified condition, discarding those that do not.
 
 - **debounceTime**:  
-  `debounceTime` delays the emission of an observable value by a specified time duration, emitting only the most recent value if the source observable emits multiple values within that duration.
+  `debounceTime` delays the emission of an observable value by a specified time
+  duration, emitting only the most recent value if the source observable emits
+  multiple values within that duration.
 
 - **distinctUntilChanged**:  
-  `distinctUntilChanged` suppresses duplicate consecutive values, ensuring that only unique values are emitted.
+  `distinctUntilChanged` suppresses duplicate consecutive values, ensuring that
+  only unique values are emitted.
 
 - **retry**:  
-  `retry` is an RxJS operator that retries a failed observable sequence a specified number of times before propagating the error.
+  `retry` is an RxJS operator that retries a failed observable sequence a
+  specified number of times before propagating the error.
 
 - **catchError**:  
-  `catchError` is used to handle errors in an observable sequence and return a fallback observable or value.
+  `catchError` is used to handle errors in an observable sequence and return a
+  fallback observable or value.
 
 - **tap**:  
-  `tap` allows you to perform side effects, such as logging errors or tracking retry attempts, without modifying the observable stream.
+  `tap` allows you to perform side effects, such as logging errors or tracking
+  retry attempts, without modifying the observable stream.
 
 - **takeWhile**:  
-  `takeWhile` is an RxJS operator that emits values from an observable until a specified condition evaluates to `false`. Once the condition fails, the observable completes, and no further values are emitted.
+  `takeWhile` is an RxJS operator that emits values from an observable until a
+  specified condition evaluates to `false`. Once the condition fails, the
+  observable completes, and no further values are emitted.
 
 ## Problems
 
 ### RxJS Problem Challenges
 
-Here are **20 combinations** of **easy**, **medium**, and **hard** RxJS problems to help build competency progressively. These challenges cover a wide range of RxJS concepts and usage patterns:
+Here are **20 combinations** of **easy**, **medium**, and **hard** RxJS problems
+to help build competency progressively. These challenges cover a wide range of
+RxJS concepts and usage patterns:
 
 ---
 
 #### Easy
 
 1. **Basic Stream Creation and Subscription**  
-   Create an observable from an array, object, and promise. Log each emitted value to the console.
+   Create an observable from an array, object, and promise. Log each emitted
+   value to the console.
 
-   ##### Code Implementation for Collect Even Numbers from Array
+   ##### Code Implementation: Collect Even Numbers from Array
 
-   This implementation uses an RxJS observable to collect even numbers from an array:
+   This implementation uses an RxJS observable to collect even numbers from an
+   array:
 
    ```typescript
    import { of } from 'rxjs';
@@ -120,7 +150,8 @@ Here are **20 combinations** of **easy**, **medium**, and **hard** RxJS problems
 
    ##### Code Implementation for Collect Even Numbers from Object
 
-   This implementation processes an object with an array property and a flag to determine whether to filter for even numbers:
+   This implementation processes an object with an array property and a flag to
+   determine whether to filter for even numbers:
 
    ```typescript
    import { of } from 'rxjs';
@@ -198,7 +229,7 @@ Here are **20 combinations** of **easy**, **medium**, and **hard** RxJS problems
 2. **Simple Transformation with `map`**  
    Use `map` to multiply each emitted value in a stream by 2.
 
-   ##### Code Implementation for Simple Transformation with `map`
+   ##### Code Implementation: Simple Transformation with `map`
 
    ```typescript
    import { of, Observable } from 'rxjs';
@@ -227,11 +258,14 @@ Here are **20 combinations** of **easy**, **medium**, and **hard** RxJS problems
    ```
 
 3. **Debouncing a Search Input**  
-   Implement a debounced search input that emits a search term after a 500ms delay.
+   Implement a debounced search input that emits a search term after a 500ms
+   delay.
 
-   ##### Code Implementation for Debouncing a Search Input
+   ##### Code Implementation: Debouncing a Search Input
 
-   The following implementation demonstrates the use of `debounceTime` and `distinctUntilChanged` to handle user inputs efficiently by reducing the frequency of emitted values:
+   The following implementation demonstrates the use of `debounceTime` and
+   `distinctUntilChanged` to handle user inputs efficiently by reducing the
+   frequency of emitted values:
 
    ```typescript
    import { Subject, Observable } from 'rxjs';
@@ -271,9 +305,10 @@ Here are **20 combinations** of **easy**, **medium**, and **hard** RxJS problems
 4. **Filtering Even Numbers**  
    Use `filter` to emit only even numbers from a stream.
 
-   ##### Code Implementation for Filtering Even Numbers
+   ##### Code Implementation: Filtering Even Numbers
 
-   The following implementation demonstrates the use of `filter` to emit only even numbers from a stream:
+   The following implementation demonstrates the use of `filter` to emit only
+   even numbers from a stream:
 
    ```typescript
    import { of, Observable } from 'rxjs';
@@ -301,11 +336,13 @@ Here are **20 combinations** of **easy**, **medium**, and **hard** RxJS problems
    ```
 
 5. **Error Handling with `catchError`**  
-   Create a stream that throws an error and use `catchError` to handle it gracefully by returning a default value.
+   Create a stream that throws an error and use `catchError` to handle it
+   gracefully by returning a default value.
 
-   ##### Code Implementation for Error Handling with `catchError`
+   ##### Code Implementation: Error Handling with `catchError`
 
-   The following implementation demonstrates the use of `catchError` to handle errors in a stream:
+   The following implementation demonstrates the use of `catchError` to handle
+   errors in a stream:
 
    ```typescript
    import { of, firstValueFrom } from 'rxjs';
@@ -345,9 +382,10 @@ Here are **20 combinations** of **easy**, **medium**, and **hard** RxJS problems
 6. **Combining Observables with `concat`**  
    Combine two observables using `concat` to emit values sequentially.
 
-   ##### Code Implementation for Combining Observables with `concat`
+   ##### Code Implementation: Combining Observables with `concat`
 
-   The following implementation demonstrates how to combine multiple observables sequentially using `concat`:
+   The following implementation demonstrates how to combine multiple observables
+   sequentially using `concat`:
 
    ```typescript
    import { of, concat, lastValueFrom } from 'rxjs';
@@ -379,11 +417,13 @@ Here are **20 combinations** of **easy**, **medium**, and **hard** RxJS problems
    ```
 
 7. **Using `take` Operator**  
-   Create a stream that emits numbers from 1 to 10 and use `take(5)` to get only the first five values.
+   Create a stream that emits numbers from 1 to 10 and use `take(5)` to get only
+   the first five values.
 
-   ##### Code Implementation for Using `take` Operator
+   ##### Code Implementation: Using `take` Operator
 
-   The following implementation demonstrates how to use the `take` operator to limit the number of emitted values:
+   The following implementation demonstrates how to use the `take` operator to
+   limit the number of emitted values:
 
    ```typescript
    import { of, firstValueFrom } from 'rxjs';
@@ -414,11 +454,13 @@ Here are **20 combinations** of **easy**, **medium**, and **hard** RxJS problems
    ```
 
 8. **Throttle Click Events**  
-   Listen to click events on a button and throttle them to emit one event every 1 second.
+   Listen to click events on a button and throttle them to emit one event every
+   1 second.
 
-   ##### Code Implementation for Throttle Click Events
+   ##### Code Implementation: Throttle Click Events
 
-   The following implementation demonstrates how to use `throttle` to limit the rate at which values are emitted from a stream:
+   The following implementation demonstrates how to use `throttle` to limit the
+   rate at which values are emitted from a stream:
 
    ```typescript
    import { of, concat, interval, firstValueFrom } from 'rxjs';
@@ -463,9 +505,10 @@ Here are **20 combinations** of **easy**, **medium**, and **hard** RxJS problems
 9. **Basic Timer with `interval`**  
    Use `interval` to create a timer that emits values every second.
 
-   ##### Code Implementation for Basic Timer with `interval`
+   ##### Code Implementation: Basic Timer with `interval`
 
-   The following implementation demonstrates how to use `interval` to create a timer that emits sequential numbers at 1-second intervals:
+   The following implementation demonstrates how to use `interval` to create a
+   timer that emits sequential numbers at 1-second intervals:
 
    ```typescript
    import { interval, firstValueFrom } from 'rxjs';
@@ -492,11 +535,14 @@ Here are **20 combinations** of **easy**, **medium**, and **hard** RxJS problems
    ```
 
 10. **Replay Last Emitted Value with `shareReplay`**  
-    Use `shareReplay` to create a shared observable that replays the last emitted value to new subscribers.
+    Use `shareReplay` to create a shared observable that replays the last
+    emitted value to new subscribers.
 
-    ##### Code Implementation for Replay Last Emitted Value with `shareReplay`
+    ##### Code Implementation: Replay Last Emitted Value with `shareReplay`
 
-    The following implementation demonstrates how to use `shareReplay` to share an observable among multiple subscribers while replaying the last three emitted values:
+    The following implementation demonstrates how to use `shareReplay` to share
+    an observable among multiple subscribers while replaying the last three
+    emitted values:
 
     ```typescript
     import { interval } from 'rxjs';
@@ -544,11 +590,14 @@ Here are **20 combinations** of **easy**, **medium**, and **hard** RxJS problems
 #### Medium
 
 11. **Implement an Autocomplete Search with `switchMap`**  
-    Build an autocomplete search component that uses `switchMap` to cancel previous requests when a new search term is entered.
+    Build an autocomplete search component that uses `switchMap` to cancel
+    previous requests when a new search term is entered.
 
-    ##### Code Implementation for Implement an Autocomplete Search with `switchMap`
+    ##### Code Implementation: Implement an Autocomplete Search with `switchMap`
 
-    The following implementation demonstrates an autocomplete search functionality using `switchMap` to handle user input and simulate HTTP requests:
+    The following implementation demonstrates an autocomplete search
+    functionality using `switchMap` to handle user input and simulate HTTP
+    requests:
 
     ```typescript
     import { from, of, Observable } from 'rxjs';
@@ -591,11 +640,13 @@ Here are **20 combinations** of **easy**, **medium**, and **hard** RxJS problems
     ```
 
 12. **Buffer Click Events**  
-    Use `bufferCount` to collect a certain number of click events before emitting them as an array.
+    Use `bufferCount` to collect a certain number of click events before
+    emitting them as an array.
 
-    ##### Code Implementation for Buffer Click Events
+    ##### Code Implementation: Buffer Click Events
 
-    The following implementation uses the `bufferCount` operator to group emitted values into arrays based on a count and a skip value:
+    The following implementation uses the `bufferCount` operator to group
+    emitted values into arrays based on a count and a skip value:
 
     ```typescript
     import { of, lastValueFrom } from 'rxjs';
@@ -627,11 +678,13 @@ Here are **20 combinations** of **easy**, **medium**, and **hard** RxJS problems
     ```
 
 13. **Conditional Emission with `takeWhile`**  
-    Emit values from an observable until a certain condition is met using `takeWhile`.
+    Emit values from an observable until a certain condition is met using
+    `takeWhile`.
 
-    ##### Code Implementation for Buffer Click EventsConditional Emission with `takeWhile`
+    ##### Code Implementation: Buffer Click EventsConditional Emission with `takeWhile`
 
-    The following implementation demonstrates the use of `takeWhile` to emit numbers from a stream until a specified condition is met:
+    The following implementation demonstrates the use of `takeWhile` to emit
+    numbers from a stream until a specified condition is met:
 
     ```typescript
     import { of, firstValueFrom } from 'rxjs';
@@ -659,11 +712,13 @@ Here are **20 combinations** of **easy**, **medium**, and **hard** RxJS problems
     ```
 
 14. **Retry on Error**  
-    Create a stream that simulates an API request, with a 50% chance of failing. Use `retry` to retry the request up to three times.
+    Create a stream that simulates an API request, with a 50% chance of failing.
+    Use `retry` to retry the request up to three times.
 
-    ##### Code Implementation for Retry on Error
+    ##### Code Implementation: Retry on Error
 
-    The following implementation simulates an API request with a 50% chance of failure. It retries the request up to 3 times before handling the error:
+    The following implementation simulates an API request with a 50% chance of
+    failure. It retries the request up to 3 times before handling the error:
 
     ```typescript
     import { of, throwError, timer } from 'rxjs';
@@ -710,57 +765,76 @@ Here are **20 combinations** of **easy**, **medium**, and **hard** RxJS problems
     ```
 
 15. **Countdown Timer with `timer` and `scan`**  
-    Implement a countdown timer that counts down from 10 to 0, emitting each second.
+    Implement a countdown timer that counts down from 10 to 0, emitting each
+    second.
 
 16. **Chaining Multiple Operators**  
-    Create a stream that emits numbers, use `map` to double them, `filter` to only emit values greater than 10, and log each value.
+    Create a stream that emits numbers, use `map` to double them, `filter` to
+    only emit values greater than 10, and log each value.
 
 17. **Using `mergeMap` for Concurrent Requests**  
-    Given an array of URLs, fetch data from each URL concurrently using `mergeMap`.
+    Given an array of URLs, fetch data from each URL concurrently using
+    `mergeMap`.
 
 18. **Complex Timer using `combineLatest`**  
-    Create two streams, one emitting values every 500ms and the other every second. Use `combineLatest` to output the combined values.
+    Create two streams, one emitting values every 500ms and the other every
+    second. Use `combineLatest` to output the combined values.
 
 19. **Simulating API Request with Backoff Strategy**  
-    Create a stream that makes an API request and uses `retryWhen` with an exponential backoff strategy.
+    Create a stream that makes an API request and uses `retryWhen` with an
+    exponential backoff strategy.
 
 20. **Sliding Window with `bufferTime`**  
-    Use `bufferTime` to emit an array of events that occurred within the last 2 seconds in a sliding window.
+    Use `bufferTime` to emit an array of events that occurred within the last 2
+    seconds in a sliding window.
 
 ---
 
 #### Hard
 
 21. **Custom Operator Implementation**  
-    Create a custom operator that emits only values that are prime numbers from a given stream.
+    Create a custom operator that emits only values that are prime numbers from
+    a given stream.
 
 22. **Dynamic Polling Based on Response**  
-    Implement a polling mechanism that adjusts its interval based on the response of the previous request.
+    Implement a polling mechanism that adjusts its interval based on the
+    response of the previous request.
 
 23. **Rate Limiting API Calls**  
-    Create an observable that listens to an API call button and limits the number of calls to one per second using `throttleTime` and `switchMap`.
+    Create an observable that listens to an API call button and limits the
+    number of calls to one per second using `throttleTime` and `switchMap`.
 
 24. **Real-time Stock Price Updates**  
-    Use `webSocket` or `ajax` to fetch stock prices and update them in real-time, simulating a live feed with `switchMap`.
+    Use `webSocket` or `ajax` to fetch stock prices and update them in
+    real-time, simulating a live feed with `switchMap`.
 
 25. **Infinite Scroll with `mergeMap` and `takeUntil`**  
-    Implement infinite scroll with RxJS to fetch new data only when the user scrolls to the bottom of the page, stopping the stream on a certain condition.
+    Implement infinite scroll with RxJS to fetch new data only when the user
+    scrolls to the bottom of the page, stopping the stream on a certain
+    condition.
 
 26. **Implementing a Retry with Dynamic Delay Strategy**  
-    Write a function that retries a failing request with an increasing delay using `retryWhen` and `delay`.
+    Write a function that retries a failing request with an increasing delay
+    using `retryWhen` and `delay`.
 
 27. **Complex Transformation with `reduce`**  
-    Create a stream that emits numbers and calculates their cumulative sum using `reduce`, then emits the total when the stream completes.
+    Create a stream that emits numbers and calculates their cumulative sum using
+    `reduce`, then emits the total when the stream completes.
 
 28. **Combining Multiple Sources with `zip` and `combineLatest`**  
-    Use `zip` and `combineLatest` together to combine data from multiple sources and emit them together in a specific pattern.
+    Use `zip` and `combineLatest` together to combine data from multiple sources
+    and emit them together in a specific pattern.
 
 29. **Chained Requests with `concatMap`**  
-    Simulate an API that requires the result of one request to be the input of the next. Use `concatMap` to chain requests sequentially.
+    Simulate an API that requires the result of one request to be the input of
+    the next. Use `concatMap` to chain requests sequentially.
 
 30. **Building a Real-time Chat Room with `Subject`**  
-    Use `Subject` to create a real-time chat room where users can send and receive messages simultaneously.
+    Use `Subject` to create a real-time chat room where users can send and
+    receive messages simultaneously.
 
 ---
 
-These exercises will cover a wide array of RxJS features, from basics to more complex concepts like retry mechanisms, custom operators, and real-time data handling. Completing them will provide a strong foundation in RxJS.
+These exercises will cover a wide array of RxJS features, from basics to more
+complex concepts like retry mechanisms, custom operators, and real-time data
+handling. Completing them will provide a strong foundation in RxJS.
