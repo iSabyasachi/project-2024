@@ -14,11 +14,33 @@ const rxjs_1 = require("rxjs");
  */
 function retryOnError() {
     // Create a stream that simulates an API request, with a 50% chance of failing.
-    //timer(1000)
-    const source = (0, rxjs_1.of)(1, 2, 3);
-    (0, rxjs_1.timer)(3000)
-        .pipe((0, rxjs_1.concatMap)(() => source))
-        .subscribe(console.log);
+    const request$ = (0, rxjs_1.timer)(1000).pipe(
+    // Simulate a 1-second delay for the API
+    (0, rxjs_1.mergeMap)(() => {
+        const isSuccess = Math.random() > 0.5;
+        return isSuccess
+            ? (0, rxjs_1.of)({ data: 'API request succeeded!' })
+            : (0, rxjs_1.throwError)(() => new Error('API request failed'));
+    }));
+    // Counter to track retry attempts
+    let retryCount = 0;
+    const result$ = request$.pipe((0, rxjs_1.tap)({
+        error: () => {
+            retryCount++;
+            console.log(`Retry attempt: ${retryCount}`);
+        },
+    }), (0, rxjs_1.retry)(3), (0, rxjs_1.catchError)((err) => {
+        console.error('Final Error: ', err.message);
+        return (0, rxjs_1.of)({ error: 'All API requests failed' });
+    }));
+    result$.subscribe({
+        next: (result) => {
+            console.log(result);
+        },
+        error: (error) => {
+            console.error(error);
+        },
+    });
 }
 /**
  * Conditional Emission with takeUntil

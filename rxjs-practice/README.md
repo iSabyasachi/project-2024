@@ -1,10 +1,12 @@
 ## Table of Contents
+
 - [Table of Contents](#table-of-contents)
 - [Installation](#installation)
 - [Concept](#concept)
 - [Problems](#problems)
 
 ## Installation
+
 1. Clone the repository: `git clone https://github.com/username/MyProject.git`
 2. Navigate to the project directory: `cd MyProject`
 3. Install dependencies: `npm install`
@@ -15,9 +17,11 @@
 8. Run lint: `npm run lint -- --fix`
 
 ## Concept
+
 <TODO>
 
 ## Problems
+
 # RxJS Problem Challenges
 
 Here are **20 combinations** of **easy**, **medium**, and **hard** RxJS problems to help build competency progressively. These challenges cover a wide range of RxJS concepts and usage patterns:
@@ -32,31 +36,33 @@ Here are **20 combinations** of **easy**, **medium**, and **hard** RxJS problems
 2. **Simple Transformation with `map`**  
    Use `map` to multiply each emitted value in a stream by 2.
 
-    #### Code Implementation
-    ```typescript
-    import { of, Observable } from 'rxjs';
-    import { map } from 'rxjs/operators';
+   #### Code Implementation
 
-    export function multipleByTwoObservable(): Observable<number[]> {
-    return of([1, 2, 3, 4, 5]).pipe(
-        map((numArray) => numArray.map((ele) => ele * 2))
-    );
-    }
-   
-    // Test case for the `multipleByTwoObservable` function.
-    // This verifies that the emitted array has all elements multiplied by 2.
-    import { multipleByTwoObservable } from './your-file-path';
+   ```typescript
+   import { of, Observable } from 'rxjs';
+   import { map } from 'rxjs/operators';
 
-    test('multipleByTwoObservable', (done) => {
-    multipleByTwoObservable().subscribe({
-        next: (value) => {
-        expect(value).toEqual([2, 4, 6, 8, 10]);
-        },
-        complete: () => {
-        done();
-        },
-    });
-    });
+   export function multipleByTwoObservable(): Observable<number[]> {
+     return of([1, 2, 3, 4, 5]).pipe(
+       map((numArray) => numArray.map((ele) => ele * 2))
+     );
+   }
+
+   // Test case for the `multipleByTwoObservable` function.
+   // This verifies that the emitted array has all elements multiplied by 2.
+   import { multipleByTwoObservable } from './your-file-path';
+
+   test('multipleByTwoObservable', (done) => {
+     multipleByTwoObservable().subscribe({
+       next: (value) => {
+         expect(value).toEqual([2, 4, 6, 8, 10]);
+       },
+       complete: () => {
+         done();
+       },
+     });
+   });
+   ```
 
 3. **Debouncing a Search Input**  
    Implement a debounced search input that emits a search term after a 500ms delay.

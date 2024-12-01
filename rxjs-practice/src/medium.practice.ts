@@ -1,7 +1,6 @@
 import {
   bufferCount,
   catchError,
-  concatMap,
   debounceTime,
   delay,
   distinctUntilChanged,
@@ -31,11 +30,13 @@ import {
  */
 export function retryOnError() {
   // Create a stream that simulates an API request, with a 50% chance of failing.
-  const request$ = timer(1000).pipe( // Simulate a 1-second delay for the API
+  const request$ = timer(1000).pipe(
+    // Simulate a 1-second delay for the API
     mergeMap(() => {
       const isSuccess = Math.random() > 0.5;
-       return isSuccess ? of({data: 'API request succeeded!'}) : 
-       throwError(() => new Error('API request failed'))
+      return isSuccess
+        ? of({ data: 'API request succeeded!' })
+        : throwError(() => new Error('API request failed'));
     })
   );
   // Counter to track retry attempts
@@ -46,22 +47,22 @@ export function retryOnError() {
       error: () => {
         retryCount++;
         console.log(`Retry attempt: ${retryCount}`);
-      }
+      },
     }),
     retry(3),
-    catchError(err => {
+    catchError((err) => {
       console.error('Final Error: ', err.message);
-      return of({ error: 'All API requests failed'});
-    }),
+      return of({ error: 'All API requests failed' });
+    })
   );
-  
+
   result$.subscribe({
     next: (result) => {
-      console.log(result)
+      console.log(result);
     },
     error: (error) => {
-      console.error(error)
-    }
+      console.error(error);
+    },
   });
 }
 
