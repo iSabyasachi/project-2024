@@ -20,7 +20,8 @@
       - [Code Implementation: Basic Timer with `interval`](#code-implementation-basic-timer-with-interval)
       - [Code Implementation: Replay Last Emitted Value with `shareReplay`](#code-implementation-replay-last-emitted-value-with-sharereplay)
     - [Medium](#medium)
-      - [Code Implementation: Implement an Autocomplete Search with `switchMap`](#code-implementation-implement-an-autocomplete-search-with-switchmap) 
+      - [Code Implementation: Implement an Autocomplete Search with `switchMap`](#code-implementation-implement-an-autocomplete-search-with-switchmap)
+      - [Code Implementation: Buffer Click Events](#code-implementation-buffer-click-events)
     - [Hard](#hard)
 
 ## Installation
