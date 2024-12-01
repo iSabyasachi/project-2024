@@ -1,6 +1,6 @@
-import { autoCompleteSearchWithSwitchMap } from './medium.practice';
+import { retryOnError } from './medium.practice';
 
 export function main() {
-  autoCompleteSearchWithSwitchMap();
+  retryOnError();
 }
 main();

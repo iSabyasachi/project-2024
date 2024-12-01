@@ -1,7 +1,60 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.retryOnError = retryOnError;
+exports.conditionalEmissionWithTakeUntil = conditionalEmissionWithTakeUntil;
+exports.conditionalEmissionWithTakeWhile = conditionalEmissionWithTakeWhile;
+exports.bufferClickEvents = bufferClickEvents;
 exports.autoCompleteSearchWithSwitchMap = autoCompleteSearchWithSwitchMap;
 const rxjs_1 = require("rxjs");
+/**
+ *
+ * Retry on Error
+    •	Create a stream that simulates an API request, with a 50% chance of failing.
+    Use retry to retry the request up to three times.
+ */
+function retryOnError() {
+    // Create a stream that simulates an API request, with a 50% chance of failing.
+    //timer(1000)
+    const source = (0, rxjs_1.of)(1, 2, 3);
+    (0, rxjs_1.timer)(3000)
+        .pipe((0, rxjs_1.concatMap)(() => source))
+        .subscribe(console.log);
+}
+/**
+ * Conditional Emission with takeUntil
+    •	Emit values from an observable until a certain condition is met using takeUntil.
+ */
+function conditionalEmissionWithTakeUntil() {
+    const stop$ = new rxjs_1.Subject();
+    setTimeout(() => {
+        console.log('Stop event emitted.');
+        stop$.next();
+        stop$.complete();
+    }, 500);
+    const nums$ = (0, rxjs_1.interval)(100);
+    const results$ = nums$.pipe((0, rxjs_1.takeUntil)(stop$), (0, rxjs_1.toArray)());
+    return (0, rxjs_1.firstValueFrom)(results$);
+}
+/**
+ * Conditional Emission with takeWhile
+    •	Emit values from an observable until a certain condition is met using takeWhile.
+ */
+function conditionalEmissionWithTakeWhile() {
+    const nums$ = (0, rxjs_1.of)(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
+    const result$ = nums$.pipe((0, rxjs_1.takeWhile)((num) => num < 6), (0, rxjs_1.toArray)());
+    return (0, rxjs_1.firstValueFrom)(result$);
+}
+/**
+ *
+ * Buffer Click Events
+    •	Use bufferCount to collect a certain number of click events before emitting them as an array.
+ *
+ */
+function bufferClickEvents() {
+    const clicks$ = (0, rxjs_1.of)('a', 'b', 'c', 'd', 'e', 'f');
+    const result$ = clicks$.pipe((0, rxjs_1.bufferCount)(3, 2), (0, rxjs_1.toArray)());
+    return (0, rxjs_1.lastValueFrom)(result$);
+}
 /**
  * Implement an Autocomplete Search with switchMap
     •	Build an autocomplete search component that uses switchMap to cancel previous requests when
