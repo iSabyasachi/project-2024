@@ -2,13 +2,13 @@
 
 - [Table of Contents](#table-of-contents)
 - [Installation](#installation)
-- [Concept](#concept)
+- [Concepts](#concepts)
 - [Problems](#problems)
 
 ## Installation
 
-1. Clone the repository: `git clone https://github.com/username/MyProject.git`
-2. Navigate to the project directory: `cd MyProject`
+1. Clone the repository: `git clone https://github.com/iSabyasachi/project-2024.git`
+2. Navigate to the project directory: `cd rxjs-practice`
 3. Install dependencies: `npm install`
 4. Build project: `npm run build`
 5. Start project: `npm start`
@@ -16,7 +16,7 @@
 7. Format project: `npm run format`
 8. Run lint: `npm run lint -- --fix`
 
-## Concept
+## Concepts
 
 ### Operator:
 
