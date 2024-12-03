@@ -5,6 +5,11 @@ import {
   conditionalEmissionWithTakeWhile,
 } from './medium.practice';
 
+test('countdownTimerWithTimerAndScan', async () => {
+  const actual = await conditionalEmissionWithTakeUntil();
+
+  expect(actual).toEqual([0, 1, 2]);
+});
 test('conditionalEmissionWithTakeUntil', async () => {
   const actual = await conditionalEmissionWithTakeUntil();
 

@@ -1,0 +1,36 @@
+{
+  "name": "javascript-practice",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "clean": "rimraf dist",
+    "build": "node build.js",
+    "mybuild": "npm run clean && npm run format && npm run lint && tsc && echo '\\033[0;32mBuild is successful!\\033[0m'",
+    "test": "jest",
+    "start": "ts-node src/main.ts",
+    "format": "prettier --write . && echo '\\033[0;32mAll files formatted successfully!\\033[0m'",
+    "lint": "eslint 'src/**/*.ts' && echo '\\033[0;32mLint passed successfully!\\033[0m'"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "rxjs": "^7.8.1",
+    "typescript": "^5.6.3"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.15.0",
+    "@types/jest": "^29.5.14",
+    "@types/node": "^22.9.0",
+    "eslint": "^9.15.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-prettier": "^5.2.1",
+    "globals": "^15.12.0",
+    "jest": "^29.7.0",
+    "prettier": "^3.4.1",
+    "ts-jest": "^29.2.5",
+    "ts-node": "^10.9.2",
+    "typescript-eslint": "^8.16.0"
+  }
+}

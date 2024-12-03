@@ -12,8 +12,10 @@ import {
   Observable,
   of,
   retry,
+  scan,
   Subject,
   switchMap,
+  take,
   takeUntil,
   takeWhile,
   tap,
@@ -21,6 +23,21 @@ import {
   timer,
   toArray,
 } from 'rxjs';
+
+/** 
+ * Countdown Timer with `timer` and `scan`**  
+    Implement a countdown timer that counts down from 10 to 0, emitting each
+    second.
+*/
+export function countdownTimerWithTimerAndScan(){
+  const nums$ = timer(1000).pipe(
+    scan((acc, curr) => acc - curr, 10),
+    takeWhile(num => num === 0),
+    toArray()
+  );
+
+  return firstValueFrom(nums$);
+}
 
 /**
  * 
