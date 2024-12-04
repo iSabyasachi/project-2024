@@ -1,3 +1,0 @@
-1. switchMap:   switchMap is an RxJS operator that maps each emitted value from an observable 
-                into a new observable, subscribes to the latest one, and automatically cancels 
-                any previous subscriptions, ensuring only the latest observable’s emissions are processed.
